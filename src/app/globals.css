@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+
+  /* Baník Švermov brand */
+  --primary: #c8102e;
+  --primary-hover: #a50d25;
+  --primary-foreground: #ffffff;
+
+  --black: #0a0a0a;
+  --white: #ffffff;
+
+  --border: #e5e7eb;
+  --muted: #f4f4f5;
+  --muted-foreground: #6b7280;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter, Arial, sans-serif);
+  -webkit-font-smoothing: antialiased;
+}
