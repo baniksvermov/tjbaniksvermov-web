@@ -54,11 +54,12 @@ export default function UmtPage() {
             </div>
             <ul className="space-y-2 text-sm text-gray-600">
               {[
-                'Celé hřiště — přípravný zápas',
-                'Celé hřiště — trénink',
-                'Půlka hřiště — trénink',
-                'S osvětlením',
-                'Bez osvětlení',
+                'Celé hřiště — přípravný zápas, bez osvětlení',
+                'Celé hřiště — přípravný zápas, s osvětlením',
+                'Celé hřiště — trénink, bez osvětlení',
+                'Celé hřiště — trénink, s osvětlením',
+                'Půlka hřiště — trénink, bez osvětlení',
+                'Půlka hřiště — trénink, s osvětlením',
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#c8102e] shrink-0" />

@@ -4,11 +4,12 @@ import { useState } from 'react'
 import { Send, CheckCircle } from 'lucide-react'
 
 const bookingTypes = [
-  { value: 'match', label: 'Celé hřiště — přípravný zápas' },
-  { value: 'training', label: 'Celé hřiště — trénink' },
-  { value: 'half', label: 'Půlka hřiště — trénink' },
-  { value: 'with_lights', label: 'S osvětlením' },
-  { value: 'without_lights', label: 'Bez osvětlení' },
+  { value: 'match_no_lights', label: 'Celé hřiště — přípravný zápas, bez osvětlení' },
+  { value: 'match_lights', label: 'Celé hřiště — přípravný zápas, s osvětlením' },
+  { value: 'training_no_lights', label: 'Celé hřiště — trénink, bez osvětlení' },
+  { value: 'training_lights', label: 'Celé hřiště — trénink, s osvětlením' },
+  { value: 'half_no_lights', label: 'Půlka hřiště — trénink, bez osvětlení' },
+  { value: 'half_lights', label: 'Půlka hřiště — trénink, s osvětlením' },
 ]
 
 export default function UmtForm() {

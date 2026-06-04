@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
 const BOOKING_TYPE_LABELS: Record<string, string> = {
-  match: 'Celé hřiště — přípravný zápas',
-  training: 'Celé hřiště — trénink',
-  half: 'Půlka hřiště — trénink',
-  with_lights: 'S osvětlením',
-  without_lights: 'Bez osvětlení',
+  match_no_lights: 'Celé hřiště — přípravný zápas, bez osvětlení',
+  match_lights: 'Celé hřiště — přípravný zápas, s osvětlením',
+  training_no_lights: 'Celé hřiště — trénink, bez osvětlení',
+  training_lights: 'Celé hřiště — trénink, s osvětlením',
+  half_no_lights: 'Půlka hřiště — trénink, bez osvětlení',
+  half_lights: 'Půlka hřiště — trénink, s osvětlením',
 }
 
 export async function POST(request: Request) {

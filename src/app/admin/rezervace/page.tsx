@@ -3,11 +3,12 @@ import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
 
 const TYPE_LABELS: Record<string, string> = {
-  match: 'Přípravný zápas',
-  training: 'Trénink — celé',
-  half: 'Trénink — půlka',
-  with_lights: 'S osvětlením',
-  without_lights: 'Bez osvětlení',
+  match_no_lights: 'Přípravný zápas, bez osvětlení',
+  match_lights: 'Přípravný zápas, s osvětlením',
+  training_no_lights: 'Trénink — celé, bez osvětlení',
+  training_lights: 'Trénink — celé, s osvětlením',
+  half_no_lights: 'Trénink — půlka, bez osvětlení',
+  half_lights: 'Trénink — půlka, s osvětlením',
 }
 
 const STATUS_STYLES: Record<string, string> = {
