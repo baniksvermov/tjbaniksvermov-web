@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
     // Odeslat email přes Resend (pokud je API klíč nastaven)
     const resendKey = process.env.RESEND_API_KEY
-    const adminEmail = process.env.ADMIN_EMAIL ?? 'baniksvermov@gmail.com'
+    const adminEmail = process.env.CONTACT_EMAIL ?? 'baniksvermov@centrum.cz'
 
     if (resendKey) {
       const typeLabel = BOOKING_TYPE_LABELS[bookingType] ?? bookingType
