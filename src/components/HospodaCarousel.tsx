@@ -16,14 +16,15 @@ const photos = [
   { src: '/hospoda/foto-9.jpg', alt: 'Pergola — bar a šipky' },
 ]
 
+const STEP = 3
+const totalGroups = Math.ceil(photos.length / STEP)
+
 export default function HospodaCarousel() {
-  const [current, setCurrent] = useState(0)
+  const [group, setGroup] = useState(0)
   const [paused, setPaused] = useState(false)
 
-  const prev = useCallback(() =>
-    setCurrent((c) => (c - 1 + photos.length) % photos.length), [])
-  const next = useCallback(() =>
-    setCurrent((c) => (c + 1) % photos.length), [])
+  const prev = useCallback(() => setGroup((g) => (g - 1 + totalGroups) % totalGroups), [])
+  const next = useCallback(() => setGroup((g) => (g + 1) % totalGroups), [])
 
   useEffect(() => {
     if (paused) return
@@ -31,72 +32,57 @@ export default function HospodaCarousel() {
     return () => clearInterval(id)
   }, [paused, next])
 
+  const visible = photos.slice(group * STEP, group * STEP + STEP)
+
   return (
     <div
-      className="relative overflow-hidden rounded-2xl bg-[#0a0a0a]"
+      className="relative"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* Slides */}
-      <div className="relative aspect-[16/9]">
-        {photos.map((photo, i) => (
-          <div
-            key={photo.src}
-            className={`absolute inset-0 transition-opacity duration-700 ${
-              i === current ? 'opacity-100' : 'opacity-0 pointer-events-none'
-            }`}
-          >
+      {/* Grid 3 fotek */}
+      <div className="grid grid-cols-3 gap-3">
+        {visible.map((photo, i) => (
+          <div key={`${group}-${i}`} className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[#0a0a0a]">
             <Image
               src={photo.src}
               alt={photo.alt}
               fill
-              className="object-cover"
-              priority={i === 0}
-              sizes="(max-width: 768px) 100vw, 75vw"
+              className="object-cover transition-transform duration-500 hover:scale-105"
+              sizes="(max-width: 768px) 33vw, 25vw"
             />
+            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/50 to-transparent" />
+            <p className="absolute bottom-2 left-2 text-xs text-white/80 leading-tight">{photo.alt}</p>
           </div>
         ))}
-
-        {/* Gradient overlay spodek */}
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60 to-transparent" />
-
-        {/* Popis */}
-        <div className="absolute bottom-4 left-4 text-sm text-white/80">
-          {photos[current].alt}
-        </div>
-
-        {/* Počítadlo */}
-        <div className="absolute bottom-4 right-4 rounded-full bg-black/50 px-3 py-1 text-xs text-white">
-          {current + 1} / {photos.length}
-        </div>
       </div>
 
       {/* Šipky */}
       <button
         onClick={prev}
-        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#c8102e] transition-colors"
+        className="absolute -left-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-[#0a0a0a]/80 text-white hover:bg-[#c8102e] transition-colors shadow-lg"
         aria-label="Předchozí"
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-4 w-4" />
       </button>
       <button
         onClick={next}
-        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#c8102e] transition-colors"
+        className="absolute -right-4 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-[#0a0a0a]/80 text-white hover:bg-[#c8102e] transition-colors shadow-lg"
         aria-label="Další"
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-4 w-4" />
       </button>
 
       {/* Tečky */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
-        {photos.map((_, i) => (
+      <div className="mt-3 flex justify-center gap-2">
+        {Array.from({ length: totalGroups }).map((_, i) => (
           <button
             key={i}
-            onClick={() => setCurrent(i)}
+            onClick={() => setGroup(i)}
             className={`h-1.5 rounded-full transition-all ${
-              i === current ? 'w-6 bg-white' : 'w-1.5 bg-white/40 hover:bg-white/70'
+              i === group ? 'w-6 bg-[#c8102e]' : 'w-1.5 bg-gray-300 hover:bg-gray-400'
             }`}
-            aria-label={`Foto ${i + 1}`}
+            aria-label={`Skupina ${i + 1}`}
           />
         ))}
       </div>
