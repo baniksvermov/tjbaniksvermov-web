@@ -54,12 +54,18 @@ export default function KontaktPage() {
               </div>
               <div>
                 <h2 className="font-semibold text-[#0a0a0a] mb-2">Email</h2>
-                <a href="mailto:baniksvermov@centrum.cz" className="block text-gray-700 hover:text-[#c8102e] transition-colors">
-                  baniksvermov@centrum.cz
-                </a>
-                <a href="mailto:info@baniksvermov.cz" className="block text-gray-700 hover:text-[#c8102e] transition-colors">
-                  info@baniksvermov.cz
-                </a>
+                <div className="flex items-baseline gap-2">
+                  <a href="mailto:baniksvermov@centrum.cz" className="text-gray-700 hover:text-[#c8102e] transition-colors">
+                    baniksvermov@centrum.cz
+                  </a>
+                  <span className="text-xs text-gray-400">— klub</span>
+                </div>
+                <div className="flex items-baseline gap-2 mt-1">
+                  <a href="mailto:baniksvermov@gmail.com" className="text-gray-700 hover:text-[#c8102e] transition-colors">
+                    baniksvermov@gmail.com
+                  </a>
+                  <span className="text-xs text-gray-400">— e-shop, administrace webu, soc. sítě</span>
+                </div>
               </div>
             </div>
           </div>
