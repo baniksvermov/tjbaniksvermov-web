@@ -58,7 +58,7 @@ export default function KontaktPage() {
                   <a href="mailto:baniksvermov@centrum.cz" className="text-gray-700 hover:text-[#c8102e] transition-colors">
                     baniksvermov@centrum.cz
                   </a>
-                  <span className="text-xs text-gray-400">— klub</span>
+                  <span className="text-xs text-gray-400">— vedení klubu</span>
                 </div>
                 <div className="flex items-baseline gap-2 mt-1">
                   <a href="mailto:baniksvermov@gmail.com" className="text-gray-700 hover:text-[#c8102e] transition-colors">
