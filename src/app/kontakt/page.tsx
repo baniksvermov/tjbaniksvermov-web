@@ -35,7 +35,7 @@ export default function KontaktPage() {
                 <p className="text-gray-700">Františka Oplta 1262</p>
                 <p className="text-gray-700">273 09 Kladno – Švermov</p>
                 <a
-                  href="https://maps.google.com/?q=Františka+Oplta+1262,+Kladno+Švermov"
+                  href="https://www.google.com/maps/place/Franti%C5%A1ka+Oplta+1262,+273+09+Kladno+7-%C5%A0vermov/@50.1672045,14.1123392,17z"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2 inline-flex items-center gap-1 text-sm text-[#c8102e] hover:underline"
@@ -164,7 +164,7 @@ export default function KontaktPage() {
             {/* Google Maps embed — hřiště TJ Baník Švermov */}
             <div className="relative" style={{ paddingBottom: '65%' }}>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2488.8!2d14.0812!3d50.1623!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470beed8c1234567%3A0x0!2sFrantišká+Oplta+1262%2C+273+09+Kladno!5e0!3m2!1scs!2scz!4v1717000000000!5m2!1scs!2scz&q=Františka+Oplta+1262,+273+09+Kladno+Švermov"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2490.12!2d14.1097643!3d50.1672079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bc839530d0ee3%3A0xf1e921fd6b4c16ee!2sFranti%C5%A1ka+Oplta+1262%2C+273+09+Kladno!5e0!3m2!1scs!2scz!4v1717000000000!5m2!1scs!2scz"
                 className="absolute inset-0 h-full w-full border-0"
                 allowFullScreen
                 loading="lazy"
