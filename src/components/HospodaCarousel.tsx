@@ -51,8 +51,6 @@ export default function HospodaCarousel() {
               className="object-cover transition-transform duration-500 hover:scale-105"
               sizes="(max-width: 768px) 33vw, 25vw"
             />
-            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/50 to-transparent" />
-            <p className="absolute bottom-2 left-2 text-xs text-white/80 leading-tight">{photo.alt}</p>
           </div>
         ))}
       </div>
