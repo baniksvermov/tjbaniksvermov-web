@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Clock, Phone, Mail, Users, Beer, Music } from 'lucide-react'
+import HospodaCarousel from '@/components/HospodaCarousel'
 
 export const metadata: Metadata = {
   title: 'Hospůdka Na Baníku',
@@ -37,6 +38,11 @@ export default function HospodaPage() {
             Otevřeno Po–So od 16:00
           </div>
         </div>
+      </div>
+
+      {/* Carousel */}
+      <div className="mb-8">
+        <HospodaCarousel />
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
