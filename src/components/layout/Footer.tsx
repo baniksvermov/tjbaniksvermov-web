@@ -22,14 +22,14 @@ export default function Footer() {
             </p>
             <div className="mt-4 flex gap-3">
               {/* Facebook */}
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+              <a href="https://facebook.com/baniksvermov" target="_blank" rel="noopener noreferrer"
                 className="rounded-full p-2 text-gray-400 hover:bg-[#c8102e] hover:text-white transition-colors" aria-label="Facebook">
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                 </svg>
               </a>
               {/* Instagram */}
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+              <a href="https://instagram.com/baniksvermov" target="_blank" rel="noopener noreferrer"
                 className="rounded-full p-2 text-gray-400 hover:bg-[#c8102e] hover:text-white transition-colors" aria-label="Instagram">
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
