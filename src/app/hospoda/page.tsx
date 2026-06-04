@@ -24,8 +24,8 @@ export default function HospodaPage() {
       {/* Hero */}
       <div className="mb-10 rounded-2xl bg-[#0a0a0a] text-white overflow-hidden">
         <div className="px-8 py-12 lg:px-12">
-          <p className="text-[#c8102e] font-semibold uppercase tracking-wider text-sm mb-2">TJ Baník Švermov</p>
-          <h1 className="font-[Anton] text-5xl uppercase tracking-wide lg:text-6xl">
+          <p className="text-[#c8102e] font-semibold uppercase tracking-wider text-sm mb-6">TJ Baník Švermov</p>
+          <h1 className="font-[Anton] text-5xl uppercase tracking-wide leading-tight lg:text-6xl">
             Hospůdka<br />Na Baníku
           </h1>
           <p className="mt-4 text-gray-400 max-w-lg text-lg">
@@ -54,7 +54,6 @@ export default function HospodaPage() {
               <p>
                 Na čepu najdete <strong>Kozel 11°</strong>, <strong>Plzeň 12°</strong> a
                 nealkoholické nápoje. K tomu italskou kávu <strong>Camardo Miscela Bar</strong>.
-                Občerstvení zajišťuje Hospůdka Na Garážích — v létě i zmrzliny.
               </p>
               <p>
                 Zahrádka s <strong>přírodním jezírkem</strong> a pergolou pojme až 120 hostů.
