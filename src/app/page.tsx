@@ -1,7 +1,10 @@
 import Link from 'next/link'
 import { ArrowRight, Calendar, Users, ShoppingBag } from 'lucide-react'
+import { getLatestArticles } from '@/lib/supabase/articles'
+import ArticleCard from '@/components/ArticleCard'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const latestArticles = await getLatestArticles(3)
   return (
     <>
       {/* Hero */}
@@ -85,7 +88,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Novinky placeholder */}
+      {/* Novinky */}
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <h2 className="font-[Anton] text-3xl uppercase tracking-wide">
@@ -98,23 +101,18 @@ export default function HomePage() {
             Všechny novinky <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
-        {/* Placeholder cards – nahradíme daty ze Supabase */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="rounded-xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <div className="h-48 bg-gray-100 animate-pulse" />
-              <div className="p-5">
-                <div className="mb-2 h-3 w-20 rounded bg-gray-100" />
-                <div className="mb-3 h-5 w-4/5 rounded bg-gray-100" />
-                <div className="h-3 w-full rounded bg-gray-100" />
-                <div className="mt-1 h-3 w-3/4 rounded bg-gray-100" />
-              </div>
-            </div>
-          ))}
-        </div>
+        {latestArticles.length > 0 ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {latestArticles.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-xl border border-dashed border-gray-200 py-16 text-center text-gray-400">
+            <p className="text-4xl mb-3">⚽</p>
+            <p className="font-medium">Novinky přibudou brzy</p>
+          </div>
+        )}
       </section>
 
       {/* Týmy */}
