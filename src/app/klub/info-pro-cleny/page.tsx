@@ -87,7 +87,7 @@ export default async function InfoProClenyPage() {
               <a href="tel:+420604234643"
                 className="flex items-center gap-2 hover:text-[#c8102e] transition-colors">
                 <Phone className="h-4 w-4 text-[#c8102e] shrink-0" />
-                David Nedvěd: +420 604 234 643
+                <span className="whitespace-nowrap">David Nedvěd: +420 604 234 643</span>
               </a>
             </div>
           </div>
