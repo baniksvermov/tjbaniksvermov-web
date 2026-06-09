@@ -44,6 +44,8 @@ function renderNode(node: any): string {
 
     case 'text': {
       text = node.text ?? ''
+      // WP migrovaný HTML obsah — vrátit přímo bez escapování
+      if (text.startsWith('__HTML__')) return text.slice(8)
       // Escapovat HTML
       text = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       if (marks.includes('bold')) text = `<strong>${text}</strong>`

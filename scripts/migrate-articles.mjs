@@ -55,7 +55,7 @@ async function fetchAllPosts() {
   let allPosts = []
   let page = 1
   while (true) {
-    const res = await fetch(`${WP_BASE}/posts?per_page=100&page=${page}&_fields=id,title,date,slug,categories,excerpt,content,featured_media&status=publish`)
+    const res = await fetch(`${WP_BASE}/posts?per_page=100&page=${page}&_embed&status=publish`)
     if (!res.ok) break
     const posts = await res.json()
     if (!posts.length) break
@@ -65,6 +65,19 @@ async function fetchAllPosts() {
     page++
   }
   return allPosts
+}
+
+function getHeroImage(post) {
+  try {
+    const media = post._embedded?.['wp:featuredmedia']?.[0]
+    if (!media) return null
+    return media.media_details?.sizes?.large?.source_url
+      || media.media_details?.sizes?.full?.source_url
+      || media.source_url
+      || null
+  } catch {
+    return null
+  }
 }
 
 async function getCategoryIds() {
@@ -108,11 +121,14 @@ async function run() {
 
     const content = wpContentToTiptap(htmlContent)
 
+    const heroImageUrl = getHeroImage(post)
+
     const { error } = await supabase.from('articles').upsert({
       title,
       slug,
       excerpt: excerpt.substring(0, 500) || null,
       content,
+      hero_image_url: heroImageUrl,
       category_id: categoryId,
       status: 'published',
       published_at: post.date,
