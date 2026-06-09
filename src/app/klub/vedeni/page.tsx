@@ -12,9 +12,9 @@ export default async function VedeniPage() {
   const supabase = await createClient()
   const { data: coaches } = await supabase
     .from('coaches')
-    .select('*, team:teams(name, slug)')
+    .select('*')
     .is('team_id', null)
-    .order('role')
+    .order('position', { ascending: true })
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 lg:px-8">
