@@ -7,16 +7,21 @@ export async function GET() {
 
   try {
     const supabase = await createClient()
-    const { count: total } = await supabase
-      .from('articles').select('*', { count: 'exact', head: true })
+    // Test přesně stejný dotaz jako getArticles()
+    const { data, count, error } = await supabase
+      .from('articles')
+      .select('*, category:article_categories(id, name, slug, color)', { count: 'exact' })
+      .eq('status', 'published')
+      .order('published_at', { ascending: false })
+      .range(0, 2)
 
-    const { count: published } = await supabase
-      .from('articles').select('*', { count: 'exact', head: true }).eq('status', 'published')
-
-    const { data: sample, error } = await supabase
-      .from('articles').select('title, status, published_at').limit(3)
-
-    return NextResponse.json({ url, keyPrefix, total, published, sample, error: error?.message ?? null })
+    return NextResponse.json({
+      url, keyPrefix,
+      count,
+      titles: data?.map(a => a.title),
+      error: error?.message ?? null,
+      errorCode: (error as any)?.code ?? null,
+    })
   } catch (e: any) {
     return NextResponse.json({ url, keyPrefix, error: e.message }, { status: 500 })
   }
