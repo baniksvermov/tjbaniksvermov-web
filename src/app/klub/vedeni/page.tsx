@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import { Phone, Mail } from 'lucide-react'
 
@@ -31,8 +32,20 @@ export default async function VedeniPage() {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {coaches.map((c) => (
             <div key={c.id} className="rounded-xl border border-gray-100 bg-white p-5">
-              <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#c8102e]/10 text-[#c8102e] text-2xl font-bold">
-                {c.first_name?.[0]}{c.last_name?.[0]}
+              <div className="mb-3 relative h-24 w-24 overflow-hidden rounded-full bg-gray-100">
+                {c.photo_url ? (
+                  <Image
+                    src={c.photo_url}
+                    alt={`${c.first_name} ${c.last_name}`}
+                    fill
+                    className="object-cover object-top"
+                    sizes="96px"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-[#c8102e]/10 text-[#c8102e] text-2xl font-bold">
+                    {c.first_name?.[0]}{c.last_name?.[0]}
+                  </div>
+                )}
               </div>
               <p className="font-bold text-[#0a0a0a]">{c.first_name} {c.last_name}</p>
               {c.role && <p className="text-sm text-[#c8102e] mt-0.5">{c.role}</p>}
