@@ -9,6 +9,10 @@ interface Props {
   featured?: boolean
 }
 
+function cleanExcerpt(text: string | null | undefined): string {
+  return text?.replace(/\[\/?\w[\w-]*[^\]]*\]/g, '').trim() ?? ''
+}
+
 export default function ArticleCard({ article, featured = false }: Props) {
   const date = article.published_at
     ? formatDistanceToNow(new Date(article.published_at), { addSuffix: true, locale: cs })
@@ -42,7 +46,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
               {article.title}
             </h2>
             {article.excerpt && (
-              <p className="mt-2 text-sm text-gray-300 line-clamp-2">{article.excerpt}</p>
+              <p className="mt-2 text-sm text-gray-300 line-clamp-2">{cleanExcerpt(article.excerpt)}</p>
             )}
             <p className="mt-3 text-xs text-gray-400">{date}</p>
           </div>
@@ -81,7 +85,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
             {article.title}
           </h3>
           {article.excerpt && (
-            <p className="mt-1.5 text-sm text-gray-500 line-clamp-2">{article.excerpt}</p>
+            <p className="mt-1.5 text-sm text-gray-500 line-clamp-2">{cleanExcerpt(article.excerpt)}</p>
           )}
           <p className="mt-3 text-xs text-gray-400">{date}</p>
         </div>

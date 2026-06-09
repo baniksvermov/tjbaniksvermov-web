@@ -65,12 +65,22 @@ function renderNode(node: any): string {
   }
 }
 
+function cleanWpContent(html: string): string {
+  return html
+    // Odstraň WP shortcodes (multiline, různé formy uvozovek)
+    .replace(/\[\/?\w[\w-]*[\s\S]*?\]/g, '')
+    // Odstraň prázdné odstavce
+    .replace(/<p>\s*(<br\s*\/?>)?\s*<\/p>/gi, '')
+    .replace(/<p>&nbsp;<\/p>/gi, '')
+    .trim()
+}
+
 export function tiptapToHtml(content: Json | null): string {
   if (!content) return ''
-  if (typeof content === 'string') return content
+  if (typeof content === 'string') return cleanWpContent(content)
 
   // Migrovany WP HTML obsah
   const html = renderNode(content)
-  if (html.startsWith('__HTML__')) return html.slice(8)
+  if (html.startsWith('__HTML__')) return cleanWpContent(html.slice(8))
   return html
 }

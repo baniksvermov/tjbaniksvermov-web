@@ -16,16 +16,21 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+function stripShortcodes(text: string | null | undefined): string {
+  return text?.replace(/\[\/?\w[\w-]*[\s\S]*?\]/g, '').trim() ?? ''
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const article = await getArticleBySlug(slug)
   if (!article) return {}
+  const desc = stripShortcodes(article.excerpt)
   return {
     title: article.title,
-    description: article.excerpt ?? undefined,
+    description: desc || undefined,
     openGraph: {
       title: article.title,
-      description: article.excerpt ?? undefined,
+      description: desc || undefined,
       images: article.hero_image_url ? [article.hero_image_url] : [],
     },
   }
@@ -41,6 +46,7 @@ export default async function ArticleDetailPage({ params }: Props) {
   if (!article) notFound()
 
   const contentHtml = tiptapToHtml(article.content)
+  const cleanExcerpt = stripShortcodes(article.excerpt)
   const publishedDate = article.published_at
     ? format(new Date(article.published_at), 'd. MMMM yyyy', { locale: cs })
     : ''
@@ -78,9 +84,9 @@ export default async function ArticleDetailPage({ params }: Props) {
       </h1>
 
       {/* Perex */}
-      {article.excerpt && (
+      {cleanExcerpt && (
         <p className="mt-4 text-lg text-gray-500 leading-relaxed border-l-4 border-[#c8102e] pl-4">
-          {article.excerpt}
+          {cleanExcerpt}
         </p>
       )}
 
