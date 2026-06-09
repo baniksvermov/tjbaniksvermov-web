@@ -3,6 +3,8 @@ import { ArrowRight, Calendar, Users, ShoppingBag } from 'lucide-react'
 import { getLatestArticles } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   const latestArticles = await getLatestArticles(3)
   return (

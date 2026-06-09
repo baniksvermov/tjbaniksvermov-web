@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+
+export const dynamic = 'force-dynamic'
 import { getArticles, getCategories } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
