@@ -79,8 +79,7 @@ export function tiptapToHtml(content: Json | null): string {
   if (!content) return ''
   if (typeof content === 'string') return cleanWpContent(content)
 
-  // Migrovany WP HTML obsah
   const html = renderNode(content)
-  if (html.startsWith('__HTML__')) return cleanWpContent(html.slice(8))
-  return html
+  // __HTML__ prefix znamená WP migrovaný obsah — cleanWpContent vždy
+  return cleanWpContent(html.startsWith('__HTML__') ? html.slice(8) : html)
 }
