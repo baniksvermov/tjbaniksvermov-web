@@ -66,5 +66,9 @@ function renderNode(node: any): string {
 export function tiptapToHtml(content: Json | null): string {
   if (!content) return ''
   if (typeof content === 'string') return content
-  return renderNode(content)
+
+  // Migrovany WP HTML obsah
+  const html = renderNode(content)
+  if (html.startsWith('__HTML__')) return html.slice(8)
+  return html
 }
