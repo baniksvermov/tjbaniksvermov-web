@@ -78,16 +78,19 @@ export default async function InfoProClenyPage() {
         <div className="space-y-5">
           <div className="rounded-xl border border-gray-100 bg-white p-5">
             <h2 className="font-semibold text-[#0a0a0a] mb-3">Kontakt na vedení</h2>
-            <div className="space-y-2 text-sm text-gray-700">
+            <div className="space-y-3 text-sm text-gray-700">
               <a href="mailto:baniksvermov@centrum.cz"
-                className="flex items-center gap-2 hover:text-[#c8102e] transition-colors">
+                className="flex items-center gap-2 hover:text-[#c8102e] transition-colors break-all">
                 <Mail className="h-4 w-4 text-[#c8102e] shrink-0" />
                 baniksvermov@centrum.cz
               </a>
               <a href="tel:+420604234643"
-                className="flex items-center gap-2 hover:text-[#c8102e] transition-colors">
-                <Phone className="h-4 w-4 text-[#c8102e] shrink-0" />
-                <span className="whitespace-nowrap">David Nedvěd: +420 604 234 643</span>
+                className="flex items-start gap-2 hover:text-[#c8102e] transition-colors">
+                <Phone className="h-4 w-4 text-[#c8102e] shrink-0 mt-0.5" />
+                <div>
+                  <div className="font-medium text-[#0a0a0a]">David Nedvěd</div>
+                  <div>+420 604 234 643</div>
+                </div>
               </a>
             </div>
           </div>
