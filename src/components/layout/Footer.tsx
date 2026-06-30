@@ -131,6 +131,17 @@ export default function Footer() {
               Ochrana osobních údajů a cookies
             </Link>
           </div>
+          <p className="mt-3 text-gray-700">
+            Vytvořil{' '}
+            <a
+              href="https://tomasvydra.cz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-white transition-colors"
+            >
+              Tomáš Vydra
+            </a>
+          </p>
         </div>
       </div>
     </footer>
