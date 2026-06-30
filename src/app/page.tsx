@@ -77,7 +77,7 @@ export default async function HomePage() {
               </div>
             </Link>
             <Link
-              href="/shop"
+              href="/eshop"
               className="group flex items-center gap-4 rounded-xl border border-gray-100 p-5 hover:border-[#c8102e] hover:shadow-sm transition-all"
             >
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#c8102e]/10 text-[#c8102e] group-hover:bg-[#c8102e] group-hover:text-white transition-colors">
