@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { sendEmail } from '@/lib/email/send'
+import { emailNewOrderCustomer, emailNewOrderAdmin } from '@/lib/email/templates'
 
 function generateOrderNumber() {
   const d = new Date()
@@ -107,6 +109,26 @@ export async function POST(req: Request) {
       console.error(itemsErr)
       return NextResponse.json({ error: 'Chyba při ukládání položek.' }, { status: 500 })
     }
+
+    // Odeslání emailů
+    const emailData = {
+      order_number,
+      customer_first_name,
+      customer_last_name,
+      customer_email,
+      customer_phone,
+      note,
+      subtotal,
+      total: subtotal,
+      items: verifiedItems,
+    }
+    const adminEmail = process.env.ADMIN_EMAIL ?? 'baniksvermov@gmail.com'
+    const customerTpl = emailNewOrderCustomer(emailData)
+    const adminTpl = emailNewOrderAdmin(emailData)
+    await Promise.all([
+      sendEmail(customer_email, customerTpl.subject, customerTpl.html),
+      sendEmail(adminEmail, adminTpl.subject, adminTpl.html),
+    ])
 
     return NextResponse.json({ order_number })
   } catch (err) {

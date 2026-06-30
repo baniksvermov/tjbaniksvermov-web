@@ -1,7 +1,7 @@
 export type Json = string | number | boolean | null | { [key: string]: Json } | Json[]
 
 export type ArticleStatus = 'draft' | 'published'
-export type OrderStatus = 'new' | 'invoiced' | 'paid' | 'shipped' | 'delivered' | 'cancelled'
+export type OrderStatus = 'new' | 'confirmed' | 'ready' | 'picked_up' | 'cancelled'
 export type BookingStatus = 'new' | 'confirmed' | 'rejected' | 'completed'
 export type MediaType = 'image' | 'video'
 export type BookingType = 'match' | 'training' | 'half' | 'with_lights' | 'without_lights'
