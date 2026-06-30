@@ -55,8 +55,12 @@ export default function NovyProduktPage() {
   const [dospela, setDospela] = useState<Variant>({ enabled: true, price: '', sizes: [...SIZES_DOSPELA] })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [newCatName, setNewCatName] = useState('')
+  const [addingCat, setAddingCat] = useState(false)
+  const [showNewCat, setShowNewCat] = useState(false)
 
   const fileRef = useRef<HTMLInputElement>(null)
+  const newCatRef = useRef<HTMLInputElement>(null)
 
   // Load categories on first focus of select
   async function loadCategories() {
@@ -131,6 +135,23 @@ export default function NovyProduktPage() {
     setter((prev) => ({ ...prev, sizes: [...all] }))
   }
 
+  async function handleCreateCategory() {
+    if (!newCatName.trim()) return
+    setAddingCat(true)
+    const res = await fetch('/api/admin/create-category', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: newCatName.trim() }),
+    })
+    const data = await res.json()
+    setAddingCat(false)
+    if (!res.ok || data.error) return setError(data.error ?? 'Chyba při vytváření kategorie.')
+    setCategories((prev) => [...prev, { id: data.id, name: data.name }].sort((a, b) => a.name.localeCompare(b.name, 'cs')))
+    setCategoryId(data.id)
+    setNewCatName('')
+    setShowNewCat(false)
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
@@ -202,7 +223,16 @@ export default function NovyProduktPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Kategorie *</label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-sm font-medium text-gray-700">Kategorie *</label>
+              <button
+                type="button"
+                onClick={() => { setShowNewCat((v) => !v); setTimeout(() => newCatRef.current?.focus(), 50) }}
+                className="flex items-center gap-1 text-xs text-[#c8102e] hover:underline"
+              >
+                <Plus className="h-3 w-3" /> Nová kategorie
+              </button>
+            </div>
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
@@ -215,6 +245,36 @@ export default function NovyProduktPage() {
               ))}
               {!catsLoaded && <option value="" disabled>Načítání…</option>}
             </select>
+
+            {showNewCat && (
+              <div className="mt-2 flex gap-2 items-center">
+                <input
+                  ref={newCatRef}
+                  type="text"
+                  value={newCatName}
+                  onChange={(e) => setNewCatName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleCreateCategory())}
+                  placeholder="Název nové kategorie…"
+                  className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e]"
+                />
+                <button
+                  type="button"
+                  onClick={handleCreateCategory}
+                  disabled={addingCat || !newCatName.trim()}
+                  className="flex items-center gap-1.5 rounded-lg bg-[#c8102e] px-3 py-2 text-sm font-medium text-white hover:bg-[#a00e26] disabled:opacity-50"
+                >
+                  {addingCat ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
+                  Přidat
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setShowNewCat(false); setNewCatName('') }}
+                  className="p-2 text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            )}
           </div>
 
           <div>
