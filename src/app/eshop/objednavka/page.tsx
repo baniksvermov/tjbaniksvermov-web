@@ -11,6 +11,8 @@ export default function ObjednavkaPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [formLoadedAt] = useState(() => Date.now())
+  const [honeypot, setHoneypot] = useState('')
 
   const [form, setForm] = useState({
     firstName: '',
@@ -72,6 +74,8 @@ export default function ObjednavkaPage() {
           customer_phone: form.phone.trim() || null,
           note: buildNote() || null,
           potisk_total: potiskTotal,
+          _hp: honeypot,
+          _t: formLoadedAt,
           items: items.map((i) => ({
             product_id: i.product_id,
             product_name: i.product_name,
@@ -122,6 +126,13 @@ export default function ObjednavkaPage() {
         <div className="grid gap-6 lg:grid-cols-5">
           {/* Formulář */}
           <form onSubmit={handleSubmit} className="lg:col-span-3 space-y-4">
+            {/* Honeypot — skryté před lidmi, boti ho vyplní */}
+            <div aria-hidden="true" className="hidden">
+              <label htmlFor="website">Website</label>
+              <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off"
+                value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+            </div>
+
             <div className="bg-white rounded-xl p-6 shadow-sm space-y-4">
               <h2 className="font-semibold text-lg">Kontaktní údaje</h2>
 

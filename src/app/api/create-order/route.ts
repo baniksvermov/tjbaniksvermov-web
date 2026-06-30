@@ -1,8 +1,23 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { sendEmail } from '@/lib/email/send'
 import { emailNewOrderCustomer, emailNewOrderAdmin } from '@/lib/email/templates'
+
+// In-memory rate limiter: IP → [timestamps]
+const rateLimitMap = new Map<string, number[]>()
+const RATE_LIMIT_MAX = 5
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000 // 1 hodina
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const hits = (rateLimitMap.get(ip) ?? []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS)
+  if (hits.length >= RATE_LIMIT_MAX) return false
+  rateLimitMap.set(ip, [...hits, now])
+  return true
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 function generateOrderNumber() {
   const d = new Date()
@@ -12,7 +27,16 @@ function generateOrderNumber() {
   return `BS-${yy}${mm}-${rand}`
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  // Rate limiting
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json(
+      { error: 'Příliš mnoho objednávek. Zkuste to prosím za hodinu.' },
+      { status: 429 }
+    )
+  }
+
   try {
     const body = await req.json()
     const {
@@ -23,13 +47,50 @@ export async function POST(req: Request) {
       note,
       potisk_total,
       items,
+      _hp, // honeypot
+      _t,  // timestamp formuláře
     } = body
 
-    if (!customer_first_name || !customer_last_name || !customer_email) {
+    // Honeypot — boti ho vyplní, lidé ne
+    if (_hp) {
+      return NextResponse.json({ error: 'Neplatný požadavek.' }, { status: 400 })
+    }
+
+    // Timing check — minimálně 3 sekundy od načtení formuláře
+    if (!_t || Date.now() - Number(_t) < 3000) {
+      return NextResponse.json({ error: 'Neplatný požadavek.' }, { status: 400 })
+    }
+
+    // Validace povinných polí
+    if (!customer_first_name?.trim() || !customer_last_name?.trim() || !customer_email?.trim()) {
       return NextResponse.json({ error: 'Chybí povinné údaje.' }, { status: 400 })
     }
+
+    // Délky polí
+    if (customer_first_name.length > 50 || customer_last_name.length > 50) {
+      return NextResponse.json({ error: 'Jméno je příliš dlouhé.' }, { status: 400 })
+    }
+    if (note && note.length > 1000) {
+      return NextResponse.json({ error: 'Poznámka je příliš dlouhá (max 1000 znaků).' }, { status: 400 })
+    }
+
+    // Formát emailu
+    if (!EMAIL_RE.test(customer_email)) {
+      return NextResponse.json({ error: 'Neplatný formát e-mailu.' }, { status: 400 })
+    }
+
     if (!items || items.length === 0) {
       return NextResponse.json({ error: 'Objednávka neobsahuje žádné položky.' }, { status: 400 })
+    }
+
+    // Limity položek
+    if (items.length > 50) {
+      return NextResponse.json({ error: 'Příliš mnoho položek v objednávce.' }, { status: 400 })
+    }
+    for (const item of items) {
+      if (!Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 100) {
+        return NextResponse.json({ error: 'Neplatné množství položky.' }, { status: 400 })
+      }
     }
 
     // Anon client pro ověření produktů (respektuje RLS – jen published produkty)

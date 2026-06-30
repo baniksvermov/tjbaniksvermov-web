@@ -5,10 +5,24 @@ import { useEffect, useState } from 'react'
 
 export default function HeroLogo() {
   const [mounted, setMounted] = useState(false)
+  const [size, setSize] = useState(500)
+
   useEffect(() => {
+    function updateSize() {
+      const w = window.innerWidth
+      if (w < 640) setSize(0)         // xs: schovat
+      else if (w < 1024) setSize(280) // sm/md: malé
+      else setSize(500)               // lg+: plná velikost
+    }
+    updateSize()
+    window.addEventListener('resize', updateSize)
     const t = setTimeout(() => setMounted(true), 150)
-    return () => clearTimeout(t)
+    return () => { clearTimeout(t); window.removeEventListener('resize', updateSize) }
   }, [])
+
+  if (size === 0) return null
+
+  const glow = size + 60
 
   return (
     <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
@@ -17,11 +31,11 @@ export default function HeroLogo() {
       <div
         style={{
           position: 'absolute',
-          right: '12%',
+          right: '10%',
           top: '50%',
           transform: 'translateY(-50%)',
-          width: 560,
-          height: 560,
+          width: glow,
+          height: glow,
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(200,16,46,0.20) 0%, rgba(200,16,46,0.06) 50%, transparent 75%)',
           opacity: mounted ? 1 : 0,
@@ -38,8 +52,8 @@ export default function HeroLogo() {
           transform: mounted
             ? 'translateY(-50%) scale(1)'
             : 'translateY(-50%) scale(0.88)',
-          width: 500,
-          height: 500,
+          width: size,
+          height: size,
           borderRadius: '50%',
           overflow: 'hidden',
           opacity: mounted ? 1 : 0,
@@ -55,6 +69,8 @@ export default function HeroLogo() {
           height={500}
           priority
           style={{
+            width: '100%',
+            height: '100%',
             filter: 'invert(1) brightness(1.1)',
             opacity: 0.18,
             display: 'block',
@@ -62,15 +78,15 @@ export default function HeroLogo() {
         />
       </div>
 
-      {/* Tenký kruhový outline jako moderní designový prvek */}
+      {/* Tenký kruhový outline */}
       <div
         style={{
           position: 'absolute',
           right: '10%',
           top: '50%',
           transform: 'translateY(-50%)',
-          width: 500,
-          height: 500,
+          width: size,
+          height: size,
           borderRadius: '50%',
           border: '1px solid rgba(200,16,46,0.18)',
           opacity: mounted ? 1 : 0,
@@ -83,8 +99,8 @@ export default function HeroLogo() {
           right: '10%',
           top: '50%',
           transform: 'translateY(-50%)',
-          width: 530,
-          height: 530,
+          width: size + 30,
+          height: size + 30,
           borderRadius: '50%',
           border: '1px solid rgba(200,16,46,0.08)',
           opacity: mounted ? 1 : 0,
