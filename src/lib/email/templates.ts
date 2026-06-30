@@ -60,7 +60,9 @@ function base(title: string, body: string) {
 </html>`
 }
 
-function itemsTable(items: OrderData['items']) {
+function itemsTable(items: OrderData['items'], total?: number) {
+  const subtotal = items.reduce((s, i) => s + i.unit_price * i.quantity, 0)
+  const potiskTotal = total !== undefined ? total - subtotal : 0
   const rows = items.map((i) => `
     <tr>
       <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:14px;color:${DARK};">
@@ -70,6 +72,12 @@ function itemsTable(items: OrderData['items']) {
       <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;text-align:center;font-size:14px;color:#6b7280;">${i.quantity}×</td>
       <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;text-align:right;font-size:14px;font-weight:600;color:${DARK};">${(i.unit_price * i.quantity).toLocaleString('cs-CZ')} Kč</td>
     </tr>`).join('')
+
+  const potiskRow = potiskTotal > 0 ? `
+    <tr>
+      <td colspan="2" style="padding:6px 0;font-size:13px;color:#6b7280;">Potisk dresu</td>
+      <td style="padding:6px 0;text-align:right;font-size:13px;color:#6b7280;">+${potiskTotal.toLocaleString('cs-CZ')} Kč</td>
+    </tr>` : ''
 
   return `
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;">
@@ -82,9 +90,10 @@ function itemsTable(items: OrderData['items']) {
       </thead>
       <tbody>${rows}</tbody>
       <tfoot>
+        ${potiskRow}
         <tr>
-          <td colspan="2" style="padding-top:12px;font-size:15px;font-weight:700;color:${DARK};">Celkem</td>
-          <td style="padding-top:12px;text-align:right;font-size:18px;font-weight:700;color:${RED};">${items.reduce((s, i) => s + i.unit_price * i.quantity, 0).toLocaleString('cs-CZ')} Kč</td>
+          <td colspan="2" style="padding-top:12px;font-size:15px;font-weight:700;color:${DARK};border-top:${potiskTotal > 0 ? '1px solid #e5e7eb' : 'none'};">Celkem</td>
+          <td style="padding-top:12px;text-align:right;font-size:18px;font-weight:700;color:${RED};border-top:${potiskTotal > 0 ? '1px solid #e5e7eb' : 'none'};">${(total ?? subtotal).toLocaleString('cs-CZ')} Kč</td>
         </tr>
       </tfoot>
     </table>`
@@ -106,7 +115,7 @@ export function emailNewOrderCustomer(o: OrderData) {
       <p style="margin:4px 0 0;font-size:22px;font-weight:700;color:${RED};">${o.order_number}</p>
     </div>
 
-    ${itemsTable(o.items)}
+    ${itemsTable(o.items, o.total)}
 
     ${o.note ? `<div style="margin-top:20px;padding:14px 16px;background:#fffbeb;border-left:3px solid #f59e0b;border-radius:4px;font-size:14px;color:#92400e;"><strong>Poznámka:</strong> ${o.note.replace(/\n/g, '<br/>')}</div>` : ''}
 
@@ -121,7 +130,7 @@ export function emailConfirmedCustomer(o: OrderData) {
     ${badge('Potvrzeno', '#2563eb')}
     <h1 style="margin:12px 0 4px;font-size:22px;color:${DARK};">Objednávka potvrzena</h1>
     <p style="margin:0 0 24px;color:#6b7280;">Vaši objednávku ${o.order_number} jsme potvrdili a zpracováváme ji.</p>
-    ${itemsTable(o.items)}
+    ${itemsTable(o.items, o.total)}
     <p style="margin-top:20px;font-size:14px;color:#6b7280;">Jakmile bude objednávka připravena k vyzvednutí, dáme vám vědět.</p>`
   return { subject: `Objednávka ${o.order_number} potvrzena`, html: base('Objednávka potvrzena', body) }
 }
@@ -131,7 +140,7 @@ export function emailReadyCustomer(o: OrderData) {
     ${badge('Připraveno k vyzvednutí', '#7c3aed')}
     <h1 style="margin:12px 0 4px;font-size:22px;color:${DARK};">Vaše objednávka je připravena!</h1>
     <p style="margin:0 0 24px;color:#6b7280;">Objednávka ${o.order_number} na vás čeká. Přijďte si pro ni na naše hřiště.</p>
-    ${itemsTable(o.items)}
+    ${itemsTable(o.items, o.total)}
     <div style="margin-top:24px;background:#f0fdf4;border-radius:8px;padding:16px 20px;">
       <p style="margin:0;font-size:14px;color:#166534;font-weight:600;">📍 TJ Baník Švermov, Kladno-Švermov</p>
       <p style="margin:6px 0 0;font-size:13px;color:#166534;">V případě dotazů nás kontaktujte na baniksvermov@gmail.com</p>
@@ -144,7 +153,7 @@ export function emailPickedUpCustomer(o: OrderData) {
     ${badge('Vyzvednuto', '#16a34a')}
     <h1 style="margin:12px 0 4px;font-size:22px;color:${DARK};">Děkujeme za nákup!</h1>
     <p style="margin:0 0 24px;color:#6b7280;">Objednávka ${o.order_number} byla úspěšně vyzvednuta. Doufáme, že budete s nákupem spokojeni!</p>
-    ${itemsTable(o.items)}
+    ${itemsTable(o.items, o.total)}
     <p style="margin-top:20px;font-size:14px;color:#6b7280;">Uvidíme se na hřišti! ⚽</p>`
   return { subject: `Děkujeme za nákup — TJ Baník Švermov`, html: base('Děkujeme za nákup', body) }
 }
@@ -154,7 +163,7 @@ export function emailCancelledCustomer(o: OrderData) {
     ${badge('Zrušeno', '#dc2626')}
     <h1 style="margin:12px 0 4px;font-size:22px;color:${DARK};">Objednávka zrušena</h1>
     <p style="margin:0 0 24px;color:#6b7280;">Vaše objednávka ${o.order_number} byla zrušena.</p>
-    ${itemsTable(o.items)}
+    ${itemsTable(o.items, o.total)}
     <p style="margin-top:20px;font-size:14px;color:#6b7280;">Pokud máte dotazy, kontaktujte nás na baniksvermov@gmail.com</p>`
   return { subject: `Objednávka ${o.order_number} zrušena`, html: base('Objednávka zrušena', body) }
 }
@@ -183,7 +192,7 @@ export function emailNewOrderAdmin(o: OrderData) {
       ${o.customer_phone ? `<tr><td style="padding:6px 0;font-size:14px;color:#6b7280;">Telefon</td><td style="padding:6px 0;font-size:14px;color:${DARK};"><a href="tel:${o.customer_phone}" style="color:${DARK};">${o.customer_phone}</a></td></tr>` : ''}
     </table>
 
-    ${itemsTable(o.items)}
+    ${itemsTable(o.items, o.total)}
 
     ${o.note ? `<div style="margin-top:20px;padding:14px 16px;background:#fffbeb;border-left:3px solid #f59e0b;border-radius:4px;font-size:14px;color:#92400e;white-space:pre-line;"><strong>Poznámka / Potisk:</strong><br/>${o.note}</div>` : ''}
 
