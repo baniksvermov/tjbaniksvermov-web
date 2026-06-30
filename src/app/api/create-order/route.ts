@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       .eq('status', 'published')
 
     if (!products || products.length !== productIds.length) {
-      return NextResponse.json({ error: 'Některý produkt není dostupný.' }, { status: 400 })
+      return NextResponse.json({ error: 'Některý produkt není dostupný.', found: products?.length, needed: productIds.length }, { status: 400 })
     }
 
     const priceMap = Object.fromEntries(products.map((p) => [p.id, p.price]))
