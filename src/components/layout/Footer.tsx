@@ -122,13 +122,13 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 border-t border-white/10 pt-6 text-center text-xs text-gray-600">
-          <p>© {new Date().getFullYear()} TJ Baník Švermov. Všechna práva vyhrazena.</p>
-          <div className="mt-2 flex justify-center gap-4">
+          <p>© {new Date().getFullYear()} TJ Baník Švermov, z.s · IČO: 48703877</p>
+          <div className="mt-2 flex flex-wrap justify-center gap-4">
             <Link href="/obchodni-podminky" className="hover:text-gray-400 transition-colors">
               Obchodní podmínky
             </Link>
             <Link href="/ochrana-osobnich-udaju" className="hover:text-gray-400 transition-colors">
-              Ochrana osobních údajů
+              Ochrana osobních údajů a cookies
             </Link>
           </div>
         </div>
