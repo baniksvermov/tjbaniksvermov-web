@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { createServiceClient } from '@/lib/supabase/service'
 import { sendEmail } from '@/lib/email/send'
 import { emailNewOrderCustomer, emailNewOrderAdmin } from '@/lib/email/templates'
 
@@ -30,7 +31,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Objednávka neobsahuje žádné položky.' }, { status: 400 })
     }
 
+    // Anon client pro ověření produktů (respektuje RLS – jen published produkty)
     const supabase = await createClient()
+    // Service client pro INSERT objednávek (obchází RLS – veřejný endpoint)
+    const serviceSupabase = createServiceClient()
 
     // Verify product prices server-side
     const productIds = [...new Set<string>(items.map((i: { product_id: string }) => i.product_id))]
@@ -64,7 +68,7 @@ export async function POST(req: Request) {
 
     const order_number = generateOrderNumber()
 
-    const { data: order, error: orderErr } = await supabase
+    const { data: order, error: orderErr } = await serviceSupabase
       .from('orders')
       .insert({
         order_number,
@@ -86,7 +90,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Chyba při vytváření objednávky.' }, { status: 500 })
     }
 
-    const { error: itemsErr } = await supabase.from('order_items').insert(
+    const { error: itemsErr } = await serviceSupabase.from('order_items').insert(
       verifiedItems.map((i: {
         product_id: string
         product_name: string
