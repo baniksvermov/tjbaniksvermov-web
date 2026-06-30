@@ -49,45 +49,37 @@ export default async function HomePage() {
       </section>
 
       {/* Quick links */}
-      <section className="border-b border-gray-100 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <Link
-              href="/kalendar"
-              className="group flex items-center gap-4 rounded-xl border border-gray-100 p-5 hover:border-[#c8102e] hover:shadow-sm transition-all"
-            >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#c8102e]/10 text-[#c8102e] group-hover:bg-[#c8102e] group-hover:text-white transition-colors">
-                <Calendar className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-semibold text-[#0a0a0a]">Kalendář zápasů</p>
-                <p className="text-sm text-gray-500">Termíny a výsledky</p>
-              </div>
-            </Link>
-            <Link
-              href="/tymy"
-              className="group flex items-center gap-4 rounded-xl border border-gray-100 p-5 hover:border-[#c8102e] hover:shadow-sm transition-all"
-            >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#c8102e]/10 text-[#c8102e] group-hover:bg-[#c8102e] group-hover:text-white transition-colors">
-                <Users className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-semibold text-[#0a0a0a]">Naše týmy</p>
-                <p className="text-sm text-gray-500">Od mini po A-mužstvo</p>
-              </div>
-            </Link>
-            <Link
-              href="/eshop"
-              className="group flex items-center gap-4 rounded-xl border border-gray-100 p-5 hover:border-[#c8102e] hover:shadow-sm transition-all"
-            >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#c8102e]/10 text-[#c8102e] group-hover:bg-[#c8102e] group-hover:text-white transition-colors">
-                <ShoppingBag className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="font-semibold text-[#0a0a0a]">Klubový shop</p>
-                <p className="text-sm text-gray-500">Dresy, mikiny a doplňky</p>
-              </div>
-            </Link>
+      <section className="bg-[#0a0a0a]">
+        <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {[
+              { href: '/kalendar', icon: Calendar, label: 'Kalendář zápasů', sub: 'Termíny a výsledky' },
+              { href: '/tymy',    icon: Users,    label: 'Naše týmy',       sub: 'Od mini po A-mužstvo' },
+              { href: '/eshop',   icon: ShoppingBag, label: 'Klubový shop', sub: 'Dresy, mikiny a doplňky' },
+            ].map(({ href, icon: Icon, label, sub }) => (
+              <Link
+                key={href}
+                href={href}
+                className="group relative overflow-hidden rounded-2xl bg-[#111] border border-white/5 p-6 flex items-center gap-5 hover:border-[#c8102e]/40 hover:-translate-y-0.5 transition-all duration-200"
+              >
+                {/* Red glow blob */}
+                <div className="absolute -top-6 -left-6 h-24 w-24 rounded-full bg-[#c8102e]/10 blur-2xl group-hover:bg-[#c8102e]/20 transition-colors duration-300" />
+
+                {/* Icon */}
+                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#c8102e]/10 border border-[#c8102e]/20 text-[#c8102e] group-hover:bg-[#c8102e] group-hover:border-[#c8102e] group-hover:text-white transition-all duration-200">
+                  <Icon className="h-6 w-6" />
+                </div>
+
+                {/* Text */}
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-white text-base leading-snug">{label}</p>
+                  <p className="text-sm text-gray-500 mt-0.5">{sub}</p>
+                </div>
+
+                {/* Arrow */}
+                <ArrowRight className="relative h-4 w-4 shrink-0 text-gray-600 group-hover:text-[#c8102e] group-hover:translate-x-0.5 transition-all duration-200" />
+              </Link>
+            ))}
           </div>
         </div>
       </section>
