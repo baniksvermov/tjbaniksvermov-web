@@ -11,6 +11,7 @@ import { getArticleBySlug, getLatestArticles } from '@/lib/supabase/articles'
 import { tiptapToHtml } from '@/lib/tiptap-renderer'
 import ArticleCard from '@/components/ArticleCard'
 import ShareButton from '@/components/ShareButton'
+import ArticleGallery from '@/components/ArticleGallery'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -116,18 +117,28 @@ export default async function ArticleDetailPage({ params }: Props) {
         />
       )}
 
-      {/* Galerie článku */}
-      {article.media && article.media.length > 0 && (
+      {/* Fotogalerie */}
+      {article.gallery_images && article.gallery_images.length > 0 && (
         <div className="mt-10">
           <h2 className="font-[Anton] text-xl uppercase tracking-wide mb-4">Fotogalerie</h2>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {article.media
-              .filter((m) => m.type === 'image')
-              .map((m) => (
-                <div key={m.id} className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
-                  <Image src={m.url} alt={m.alt ?? ''} fill className="object-cover hover:scale-105 transition-transform duration-300" />
-                </div>
-              ))}
+          <ArticleGallery
+            images={article.gallery_images}
+            layout={article.gallery_layout ?? 'carousel'}
+          />
+        </div>
+      )}
+
+      {/* YouTube video */}
+      {article.youtube_url && getYouTubeId(article.youtube_url) && (
+        <div className="mt-10">
+          <h2 className="font-[Anton] text-xl uppercase tracking-wide mb-4">Video</h2>
+          <div className="aspect-video overflow-hidden rounded-2xl bg-black">
+            <iframe
+              src={`https://www.youtube.com/embed/${getYouTubeId(article.youtube_url)}`}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
       )}
@@ -161,4 +172,14 @@ export default async function ArticleDetailPage({ params }: Props) {
       )}
     </article>
   )
+}
+
+function getYouTubeId(url: string): string | null {
+  try {
+    const u = new URL(url)
+    if (u.hostname.includes('youtu.be')) return u.pathname.slice(1)
+    return u.searchParams.get('v')
+  } catch {
+    return null
+  }
 }

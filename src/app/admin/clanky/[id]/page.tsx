@@ -18,11 +18,17 @@ async function updateArticle(id: string, data: FormData): Promise<{ error?: stri
   const categoryId = data.get('category_id') as string
   const status = data.get('status') as string
   const heroImageUrl = data.get('hero_image_url') as string
+  const galleryImagesRaw = data.get('gallery_images') as string
+  const galleryLayout = data.get('gallery_layout') as string
+  const youtubeUrl = data.get('youtube_url') as string
 
   let content: any = contentRaw
   try { content = JSON.parse(contentRaw) } catch {
     content = contentRaw ? { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: contentRaw }] }] } : null
   }
+
+  let galleryImages: string[] = []
+  try { galleryImages = JSON.parse(galleryImagesRaw || '[]') } catch { galleryImages = [] }
 
   const { error } = await supabase.from('articles').update({
     title, slug,
@@ -30,6 +36,9 @@ async function updateArticle(id: string, data: FormData): Promise<{ error?: stri
     content,
     category_id: categoryId || null,
     hero_image_url: heroImageUrl || null,
+    gallery_images: galleryImages.length > 0 ? galleryImages : null,
+    gallery_layout: galleryLayout || 'carousel',
+    youtube_url: youtubeUrl || null,
     status,
     published_at: status === 'published' ? new Date().toISOString() : null,
   }).eq('id', id)

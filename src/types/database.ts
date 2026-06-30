@@ -42,6 +42,9 @@ export interface Article {
   excerpt: string | null
   content: Json | null
   hero_image_url: string | null
+  gallery_images: string[] | null
+  gallery_layout: 'carousel' | 'side-by-side' | 'single' | null
+  youtube_url: string | null
   category_id: string | null
   author_id: string | null
   team_id: string | null
