@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Mail, MapPin } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -112,10 +112,6 @@ export default function Footer() {
                 >
                   baniksvermov@centrum.cz
                 </a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 shrink-0 text-[#c8102e]" />
-                <span>Doplnit telefon</span>
               </li>
             </ul>
           </div>
