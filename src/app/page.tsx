@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowRight, Calendar, Users, ShoppingBag, Shield, Trophy } from 'lucide-react'
 import { getLatestArticles } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
+import HeroLogo from '@/components/HeroLogo'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,6 +14,7 @@ export default async function HomePage() {
       <section className="relative bg-[#0a0a0a] text-white overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0a0a0a]" />
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c8102e] opacity-5 skew-x-12 translate-x-20" />
+        <HeroLogo />
         <div className="relative mx-auto max-w-7xl px-4 py-24 lg:px-8 lg:py-36">
           <div className="max-w-2xl">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#c8102e]/30 bg-[#c8102e]/10 px-4 py-1.5 text-sm text-[#c8102e]">
