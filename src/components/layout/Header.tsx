@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
+import { useCart } from '@/components/shop/CartProvider'
 
 const navItems = [
   { label: 'Domů', href: '/' },
@@ -37,12 +38,13 @@ const navItems = [
   { label: 'Kalendář', href: '/kalendar' },
   { label: 'Hospoda', href: '/hospoda' },
   { label: 'Kontakt', href: '/kontakt' },
-  { label: 'Shop', href: '/shop' },
+  { label: 'Shop', href: '/eshop' },
 ]
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const { itemCount, openCart } = useCart()
 
   return (
     <header className="sticky top-0 z-50 bg-[#0a0a0a] text-white shadow-lg">
@@ -96,6 +98,20 @@ export default function Header() {
             )
           )}
         </nav>
+
+        {/* Cart icon */}
+        <button
+          onClick={openCart}
+          className="relative p-2 text-gray-300 hover:text-white"
+          aria-label="Košík"
+        >
+          <ShoppingBag className="h-5 w-5" />
+          {itemCount > 0 && (
+            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#c8102e] text-[10px] font-bold text-white">
+              {itemCount > 9 ? '9+' : itemCount}
+            </span>
+          )}
+        </button>
 
         {/* Mobile hamburger */}
         <button

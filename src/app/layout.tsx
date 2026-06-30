@@ -3,6 +3,8 @@ import { Inter, Anton } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import { CartProvider } from '@/components/shop/CartProvider'
+import CartDrawer from '@/components/shop/CartDrawer'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -38,9 +40,12 @@ export default function RootLayout({
   return (
     <html lang="cs" className={`${inter.variable} ${anton.variable} h-full`}>
       <body className="min-h-full flex flex-col antialiased bg-white text-[#0a0a0a]">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Header />
+          <CartDrawer />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   )
