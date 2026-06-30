@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: '*.supabase.co',
         pathname: '/storage/v1/object/public/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.team-jako.cz',
+        pathname: '/ew/ew_images/**',
+      },
     ],
   },
 }
