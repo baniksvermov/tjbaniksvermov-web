@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'www.team-jako.cz',
+        hostname: 'www.jakojedenteam.cz',
         pathname: '/ew/ew_images/**',
       },
     ],

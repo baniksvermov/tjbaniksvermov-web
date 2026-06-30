@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 
-const ALLOWED_HOST = 'www.team-jako.cz'
+const ALLOWED_HOST = 'www.jakojedenteam.cz'
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url')
