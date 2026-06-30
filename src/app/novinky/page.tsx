@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { Newspaper } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 import { getArticles, getCategories } from '@/lib/supabase/articles'
@@ -70,7 +71,7 @@ export default async function NovinkyPage({ searchParams }: Props) {
 
       {articles.length === 0 ? (
         <div className="py-24 text-center text-gray-400">
-          <p className="text-5xl mb-4">⚽</p>
+          <Newspaper className="h-12 w-12 mx-auto mb-4 text-gray-300" />
           <p className="text-lg font-medium">Zatím žádné příspěvky</p>
           <p className="text-sm mt-1">Brzy tu něco bude!</p>
         </div>

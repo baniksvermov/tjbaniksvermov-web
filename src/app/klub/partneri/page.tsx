@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Handshake } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Partneři',
@@ -26,7 +26,7 @@ export default async function PartneriPage() {
 
       {!partners?.length ? (
         <div className="rounded-xl border border-dashed border-gray-200 py-20 text-center text-gray-400">
-          <p className="text-4xl mb-3">🤝</p>
+          <Handshake className="h-10 w-10 mx-auto mb-3 text-gray-300" />
           <p className="font-medium">Partneři budou brzy doplněni</p>
           <Link href="/kontakt" className="mt-3 inline-block text-sm text-[#c8102e] hover:underline">
             Chcete se stát partnerem? →

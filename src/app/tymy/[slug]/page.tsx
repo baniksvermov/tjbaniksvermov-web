@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { ExternalLink, User } from 'lucide-react'
+import { ExternalLink, User, Users } from 'lucide-react'
 import type { Player, Coach } from '@/types/database'
 
 interface Props {
@@ -86,7 +86,7 @@ export default async function TymPage({ params }: Props) {
           <h2 className="font-[Anton] text-2xl uppercase tracking-wide mb-4">Soupiska</h2>
           {!sortedPlayers.length ? (
             <div className="rounded-xl border border-dashed border-gray-200 py-14 text-center text-gray-400">
-              <p className="text-3xl mb-2">⚽</p>
+              <Users className="h-8 w-8 mx-auto mb-2 text-gray-300" />
               <p className="text-sm">Soupiska bude brzy doplněna</p>
             </div>
           ) : (

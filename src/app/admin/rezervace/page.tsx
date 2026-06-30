@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
+import { ClipboardList, Calendar, Clock } from 'lucide-react'
 
 const TYPE_LABELS: Record<string, string> = {
   match_no_lights: 'Přípravný zápas, bez osvětlení',
@@ -42,7 +43,7 @@ export default async function AdminRezervacePage() {
       <div className="rounded-xl border border-gray-100 bg-white overflow-hidden">
         {!bookings?.length ? (
           <div className="py-16 text-center text-gray-400">
-            <p className="text-4xl mb-3">📋</p>
+            <ClipboardList className="h-10 w-10 mx-auto mb-3 text-gray-300" />
             <p className="font-medium">Žádné poptávky zatím</p>
           </div>
         ) : (
@@ -64,11 +65,11 @@ export default async function AdminRezervacePage() {
                     </div>
                     <div className="flex flex-wrap gap-3 text-sm mt-1">
                       <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-gray-700">
-                        📅 {format(new Date(b.requested_date), 'EEEE d. M. yyyy', { locale: cs })}
+                        <Calendar className="h-3.5 w-3.5" /> {format(new Date(b.requested_date), 'EEEE d. M. yyyy', { locale: cs })}
                       </span>
                       {b.time_from && (
                         <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-gray-700">
-                          🕐 {b.time_from}{b.time_to ? ` – ${b.time_to}` : ''}
+                          <Clock className="h-3.5 w-3.5" /> {b.time_from}{b.time_to ? ` – ${b.time_to}` : ''}
                         </span>
                       )}
                       {b.booking_type && (

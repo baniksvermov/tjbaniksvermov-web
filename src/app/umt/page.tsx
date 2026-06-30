@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import UmtForm from './UmtForm'
-import { Calendar, Clock, Phone, Info } from 'lucide-react'
+import { Calendar, Clock, Phone, Info, AlertTriangle } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Pronájem UMT',
@@ -70,7 +70,7 @@ export default function UmtPage() {
           </div>
 
           <div className="rounded-xl border border-amber-100 bg-amber-50 p-4 text-sm text-amber-800">
-            <p className="font-medium mb-1">⚠️ Upozornění</p>
+            <p className="font-medium mb-1 flex items-center gap-1.5"><AlertTriangle className="h-4 w-4" /> Upozornění</p>
             <p>Poptávka nezaručuje rezervaci termínu. Termín je potvrzen až po telefonickém domluvení.</p>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Calendar, Users, ShoppingBag } from 'lucide-react'
+import { ArrowRight, Calendar, Users, ShoppingBag, Shield, Trophy } from 'lucide-react'
 import { getLatestArticles } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
 
@@ -16,7 +16,7 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-7xl px-4 py-24 lg:px-8 lg:py-36">
           <div className="max-w-2xl">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#c8102e]/30 bg-[#c8102e]/10 px-4 py-1.5 text-sm text-[#c8102e]">
-              ⚽ Fotbalový klub — Kladno Švermov
+              <Shield className="h-3.5 w-3.5" /> Fotbalový klub — Kladno Švermov
             </div>
             <h1 className="font-[Anton] text-5xl uppercase tracking-wide leading-tight lg:text-7xl">
               TJ Baník
@@ -111,7 +111,7 @@ export default async function HomePage() {
           </div>
         ) : (
           <div className="rounded-xl border border-dashed border-gray-200 py-16 text-center text-gray-400">
-            <p className="text-4xl mb-3">⚽</p>
+            <Trophy className="h-10 w-10 mx-auto mb-3 text-gray-300" />
             <p className="font-medium">Novinky přibudou brzy</p>
           </div>
         )}

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
 import { createClient } from '@/lib/supabase/server'
-import { ArrowRight, Mail, Phone } from 'lucide-react'
+import { ArrowRight, Mail, Phone, FileText } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -43,7 +43,7 @@ export default async function InfoProClenyPage() {
         <div className="lg:col-span-2">
           {!articles?.length ? (
             <div className="rounded-xl border border-dashed border-gray-200 py-16 text-center text-gray-400">
-              <p className="text-4xl mb-3">📄</p>
+              <FileText className="h-10 w-10 mx-auto mb-3 text-gray-300" />
               <p className="font-medium">Zatím žádné dokumenty</p>
             </div>
           ) : (

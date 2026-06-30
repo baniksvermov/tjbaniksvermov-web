@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 import { cs } from 'date-fns/locale'
+import { Newspaper } from 'lucide-react'
 import type { Article } from '@/types/database'
 
 interface Props {
@@ -68,7 +69,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-              <span className="text-4xl">⚽</span>
+              <Newspaper className="h-10 w-10 text-gray-300" />
             </div>
           )}
         </div>

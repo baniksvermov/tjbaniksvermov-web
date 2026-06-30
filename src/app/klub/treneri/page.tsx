@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { Phone, Mail, User } from 'lucide-react'
+import { Phone, Mail, User, Users } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -59,7 +59,7 @@ export default async function TreneriPage() {
 
       {groups.length === 0 ? (
         <div className="rounded-xl border border-dashed border-gray-200 py-20 text-center text-gray-400">
-          <p className="text-4xl mb-3">👥</p>
+          <Users className="h-10 w-10 mx-auto mb-3 text-gray-300" />
           <p className="font-medium">Informace o trenérech budou brzy doplněny</p>
         </div>
       ) : (

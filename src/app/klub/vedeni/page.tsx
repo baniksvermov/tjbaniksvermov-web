@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
-import { Phone, Mail } from 'lucide-react'
+import { Phone, Mail, Users } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Vedení klubu',
@@ -25,7 +25,7 @@ export default async function VedeniPage() {
 
       {!coaches?.length ? (
         <div className="rounded-xl border border-dashed border-gray-200 py-20 text-center text-gray-400">
-          <p className="text-4xl mb-3">👥</p>
+          <Users className="h-10 w-10 mx-auto mb-3 text-gray-300" />
           <p className="font-medium">Informace o vedení budou brzy doplněny</p>
         </div>
       ) : (

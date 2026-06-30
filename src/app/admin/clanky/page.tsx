@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
-import { Plus, Pencil, Eye } from 'lucide-react'
+import { Plus, Pencil, Eye, FileText } from 'lucide-react'
 
 export default async function AdminClankyPage() {
   const supabase = await createClient()
@@ -29,7 +29,7 @@ export default async function AdminClankyPage() {
       <div className="rounded-xl border border-gray-100 bg-white overflow-hidden">
         {!articles?.length ? (
           <div className="py-16 text-center text-gray-400">
-            <p className="text-4xl mb-3">📰</p>
+            <FileText className="h-10 w-10 mx-auto mb-3 text-gray-300" />
             <p className="font-medium">Žádné články</p>
             <Link href="/admin/clanky/novy" className="mt-3 inline-block text-sm text-[#c8102e] hover:underline">
               Přidat první článek →

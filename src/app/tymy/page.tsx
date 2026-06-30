@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Shield } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Týmy',
@@ -53,7 +53,7 @@ export default async function TymyPage() {
                   >
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#c8102e]/10 text-[#c8102e] font-bold text-xs">
-                        ⚽
+                        <Shield className="h-4 w-4" />
                       </div>
                       <p className="font-semibold text-[#0a0a0a] group-hover:text-[#c8102e] transition-colors">
                         {team.name}
