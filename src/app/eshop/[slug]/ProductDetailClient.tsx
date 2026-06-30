@@ -10,6 +10,10 @@ interface Props {
   product: Product
 }
 
+function proxyImg(url: string) {
+  return `/api/img?url=${encodeURIComponent(url)}`
+}
+
 export default function ProductDetailClient({ product }: Props) {
   const { addItem, itemKey } = useCart()
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
@@ -20,7 +24,8 @@ export default function ProductDetailClient({ product }: Props) {
   const [added, setAdded] = useState(false)
   const [error, setError] = useState('')
 
-  const image = product.images?.[0]
+  const rawImage = product.images?.[0]
+  const image = rawImage ? proxyImg(rawImage) : null
   const cat = typeof product.category === 'object' ? product.category : null
   const hasColors = (product.colors?.length ?? 0) > 1
   const hasSizes = (product.sizes?.length ?? 0) > 0

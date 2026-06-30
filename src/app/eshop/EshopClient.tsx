@@ -89,8 +89,13 @@ export default function EshopClient({ products, categories }: Props) {
   )
 }
 
+function proxyImg(url: string) {
+  return `/api/img?url=${encodeURIComponent(url)}`
+}
+
 function ProductCard({ product }: { product: Product }) {
-  const image = product.images?.[0]
+  const rawImage = product.images?.[0]
+  const image = rawImage ? proxyImg(rawImage) : null
   const cat = typeof product.category === 'object' ? product.category : null
 
   return (
