@@ -25,7 +25,7 @@ export default async function HomePage() {
             </h1>
             <p className="mt-6 text-lg text-gray-400 leading-8 max-w-lg">
               Fotbalový klub s tradicí od roku 1910. Hrajeme pro radost z fotbalu
-              od nejmenších přípravkářů až po dospělé muže.
+              od nejmenších až po dospělé muže.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
