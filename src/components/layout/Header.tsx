@@ -166,13 +166,6 @@ export default function Header() {
                   {/* Accordion obsah */}
                   {expandedMobile === item.label && (
                     <div className="pb-3 space-y-0.5">
-                      <Link
-                        href={item.href}
-                        className="block rounded-lg px-3 py-2.5 text-sm text-[#c8102e] font-medium"
-                        onClick={closeMobile}
-                      >
-                        Všechny {item.label.toLowerCase()}
-                      </Link>
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
