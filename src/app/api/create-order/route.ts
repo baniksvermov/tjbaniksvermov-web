@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       .eq('status', 'published')
 
     if (!products || products.length !== productIds.length) {
-      return NextResponse.json({ error: 'Některý produkt není dostupný.', found: products?.length, needed: productIds.length }, { status: 400 })
+      return NextResponse.json({ error: 'Některý produkt není dostupný.' }, { status: 400 })
     }
 
     const priceMap = Object.fromEntries(products.map((p) => [p.id, p.price]))
@@ -87,7 +87,7 @@ export async function POST(req: Request) {
 
     if (orderErr || !order) {
       console.error(orderErr)
-      return NextResponse.json({ error: 'Chyba při vytváření objednávky.', debug: true, detail: String(orderErr) }, { status: 500 })
+      return NextResponse.json({ error: 'Chyba při vytváření objednávky.' }, { status: 500 })
     }
 
     const { error: itemsErr } = await serviceSupabase.from('order_items').insert(
