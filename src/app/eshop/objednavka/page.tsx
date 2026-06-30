@@ -71,6 +71,7 @@ export default function ObjednavkaPage() {
           customer_email: form.email.trim(),
           customer_phone: form.phone.trim() || null,
           note: buildNote() || null,
+          potisk_total: potiskTotal,
           items: items.map((i) => ({
             product_id: i.product_id,
             product_name: i.product_name,

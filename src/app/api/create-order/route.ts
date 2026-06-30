@@ -21,6 +21,7 @@ export async function POST(req: Request) {
       customer_email,
       customer_phone,
       note,
+      potisk_total,
       items,
     } = body
 
@@ -79,7 +80,7 @@ export async function POST(req: Request) {
         note,
         subtotal,
         shipping_cost: 0,
-        total: subtotal,
+        total: subtotal + (Number(potisk_total) || 0),
         status: 'new',
       })
       .select('id')
@@ -123,7 +124,7 @@ export async function POST(req: Request) {
       customer_phone,
       note,
       subtotal,
-      total: subtotal,
+      total: subtotal + (Number(potisk_total) || 0),
       items: verifiedItems,
     }
     const adminEmail = process.env.ADMIN_EMAIL ?? 'baniksvermov@gmail.com'
