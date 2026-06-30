@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { createServiceClient } from '@/lib/supabase/service'
 import { sendEmail } from '@/lib/email/send'
 import {
   emailConfirmedCustomer,
@@ -27,7 +28,9 @@ export async function POST(req: NextRequest) {
   const validStatuses = ['new', 'confirmed', 'ready', 'picked_up', 'cancelled']
   if (!validStatuses.includes(status)) return NextResponse.json({ error: 'Neplatný status' }, { status: 400 })
 
-  const { error: updateErr } = await supabase
+  const serviceSupabase = createServiceClient()
+
+  const { error: updateErr } = await serviceSupabase
     .from('orders')
     .update({ status })
     .eq('id', order_id)
@@ -36,7 +39,7 @@ export async function POST(req: NextRequest) {
 
   // Načteme objednávku pro email
   if (STATUS_EMAIL[status]) {
-    const { data: order } = await supabase
+    const { data: order } = await serviceSupabase
       .from('orders')
       .select('*, items:order_items(*)')
       .eq('id', order_id)

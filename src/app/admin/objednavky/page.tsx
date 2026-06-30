@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createServiceClient } from '@/lib/supabase/service'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
 import OrderStatusSelect from './OrderStatusSelect'
@@ -7,7 +7,7 @@ import { STATUS_LABELS, STATUS_STYLES } from './constants'
 export const dynamic = 'force-dynamic'
 
 export default async function ObjednavkyPage() {
-  const supabase = await createClient()
+  const supabase = createServiceClient()
 
   const { data: orders } = await supabase
     .from('orders')
