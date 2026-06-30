@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { STATUS_LABELS, STATUS_STYLES } from './page'
+import { STATUS_LABELS, STATUS_STYLES } from './constants'
 
 const STATUS_OPTIONS = [
   { value: 'new', label: 'Nová' },
