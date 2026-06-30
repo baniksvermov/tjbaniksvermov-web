@@ -24,7 +24,7 @@ export default function ArticleGallery({ images, layout }: Props) {
 
   if (layout === 'side-by-side') {
     return (
-      <div className={`grid gap-3 ${images.length === 1 ? 'grid-cols-1' : images.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3">
         {images.map((src, i) => (
           <div key={i} className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
             <Image src={src} alt="" fill className="object-cover hover:scale-105 transition-transform duration-300" sizes="300px" />

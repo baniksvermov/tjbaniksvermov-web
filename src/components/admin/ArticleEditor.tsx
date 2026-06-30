@@ -86,7 +86,7 @@ export default function ArticleEditor({ article, categories, onSave, onDelete }:
 
   async function addGalleryImages(files: FileList | null) {
     if (!files) return
-    const slots = Array.from(files).slice(0, 3 - gallery.length)
+    const slots = Array.from(files)
     const placeholders: ImgItem[] = slots.map(() => ({ url: '', uploading: true }))
     setGallery((prev) => [...prev, ...placeholders])
 
@@ -287,14 +287,25 @@ export default function ArticleEditor({ article, categories, onSave, onDelete }:
 
       {/* GALERIE */}
       <section className="rounded-xl border border-gray-100 bg-white p-6 space-y-4">
-        <div>
-          <h2 className="font-semibold text-[#0a0a0a]">Fotogalerie</h2>
-          <p className="text-xs text-gray-400 mt-0.5">Až 3 fotky zobrazené pod textem článku.</p>
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="font-semibold text-[#0a0a0a]">Fotogalerie</h2>
+            <p className="text-xs text-gray-400 mt-0.5">
+              {gallery.length > 0 ? `${gallery.length} foto` : 'Žádné fotky'} · bez omezení počtu
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => galleryRef.current?.click()}
+            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-600 hover:border-[#c8102e] hover:text-[#c8102e] transition-colors"
+          >
+            <Upload className="h-3.5 w-3.5" /> Přidat fotky
+          </button>
         </div>
 
         {/* Layout výběr */}
         <div>
-          <p className="text-xs font-medium text-gray-500 mb-2">Způsob zobrazení:</p>
+          <p className="text-xs font-medium text-gray-500 mb-2">Způsob zobrazení na webu:</p>
           <div className="flex gap-2">
             {LAYOUTS.map((l) => (
               <button
@@ -313,37 +324,54 @@ export default function ArticleEditor({ article, categories, onSave, onDelete }:
           </div>
         </div>
 
-        {/* Upload + preview */}
-        <div className="grid grid-cols-3 gap-3">
-          {gallery.map((img, i) => (
-            <div key={i} className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 border border-gray-200">
-              {img.uploading ? (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
-                </div>
-              ) : (
-                <img src={img.url} alt="" className="w-full h-full object-cover" />
-              )}
-              <button
-                type="button"
-                onClick={() => removeGalleryImg(i)}
-                className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          ))}
+        {/* Upload + preview grid */}
+        {gallery.length > 0 && (
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+            {gallery.map((img, i) => (
+              <div key={i} className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 border border-gray-200 group">
+                {img.uploading ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-gray-50">
+                    <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+                    <span className="text-xs text-gray-400">Nahrávám…</span>
+                  </div>
+                ) : (
+                  <img src={img.url} alt="" className="w-full h-full object-cover" />
+                )}
+                <button
+                  type="button"
+                  onClick={() => removeGalleryImg(i)}
+                  className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+                <span className="absolute bottom-1 left-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/50 text-[10px] font-bold text-white">
+                  {i + 1}
+                </span>
+              </div>
+            ))}
 
-          {gallery.length < 3 && (
+            {/* Add more slot */}
             <div
               onClick={() => galleryRef.current?.click()}
               className="aspect-square rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:border-[#c8102e] transition-colors"
             >
               <Upload className="h-5 w-5 text-gray-300" />
-              <span className="text-xs text-gray-400">Přidat foto</span>
+              <span className="text-xs text-gray-400">Přidat</span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
+        {gallery.length === 0 && (
+          <div
+            onClick={() => galleryRef.current?.click()}
+            className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-200 py-10 cursor-pointer hover:border-[#c8102e] transition-colors"
+          >
+            <Upload className="h-7 w-7 text-gray-300" />
+            <p className="text-sm text-gray-500">Klikněte nebo přetáhněte fotky</p>
+            <p className="text-xs text-gray-400">Lze vybrat více najednou</p>
+          </div>
+        )}
+
         <input
           ref={galleryRef}
           type="file"
