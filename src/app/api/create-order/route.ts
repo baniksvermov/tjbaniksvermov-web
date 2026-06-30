@@ -87,7 +87,7 @@ export async function POST(req: Request) {
 
     if (orderErr || !order) {
       console.error(orderErr)
-      return NextResponse.json({ error: 'Chyba při vytváření objednávky.', detail: orderErr?.message, code: orderErr?.code }, { status: 500 })
+      return NextResponse.json({ error: 'Chyba při vytváření objednávky.', detail: JSON.stringify(orderErr) }, { status: 500 })
     }
 
     const { error: itemsErr } = await serviceSupabase.from('order_items').insert(
