@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Clock, Phone, Info, AlertTriangle } from 'lucide-react'
+import { Clock, Phone, AlertTriangle, Trophy, Dumbbell, Zap, ZapOff } from 'lucide-react'
 import UmtBookingSection from './UmtBookingSection'
 
 export const metadata: Metadata = {
@@ -40,26 +40,61 @@ export default function UmtPage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-gray-100 bg-white p-6">
-            <div className="flex items-start gap-3 mb-3">
-              <Info className="h-4 w-4 text-[#c8102e] mt-0.5 shrink-0" />
-              <h2 className="font-semibold text-[#0a0a0a]">Typy pronájmu</h2>
+          {/* Typy pronájmu */}
+          <div className="rounded-xl bg-[#0a0a0a] text-white p-6 space-y-5">
+            <h2 className="font-[Anton] text-xl uppercase tracking-wide">Typy pronájmu</h2>
+
+            {/* Celé hřiště */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-2">Celé hřiště</p>
+              <div className="space-y-2">
+                {[
+                  { icon: Trophy, label: 'Přípravný zápas', lights: false },
+                  { icon: Trophy, label: 'Přípravný zápas', lights: true },
+                  { icon: Dumbbell, label: 'Trénink', lights: false },
+                  { icon: Dumbbell, label: 'Trénink', lights: true },
+                ].map(({ icon: Icon, label, lights }) => (
+                  <div
+                    key={label + lights}
+                    className="flex items-center gap-3 rounded-lg bg-white/5 border border-white/8 px-3 py-2.5"
+                  >
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#c8102e]/15 text-[#c8102e]">
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <span className="flex-1 text-sm text-gray-200">{label}</span>
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${lights ? 'bg-yellow-400/15 text-yellow-300' : 'bg-white/8 text-gray-500'}`}>
+                      {lights ? <Zap className="h-3 w-3" /> : <ZapOff className="h-3 w-3" />}
+                      {lights ? 'osvětlení' : 'bez světla'}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <ul className="space-y-2 text-sm text-gray-600">
-              {[
-                'Celé hřiště — přípravný zápas, bez osvětlení',
-                'Celé hřiště — přípravný zápas, s osvětlením',
-                'Celé hřiště — trénink, bez osvětlení',
-                'Celé hřiště — trénink, s osvětlením',
-                'Půlka hřiště — trénink, bez osvětlení',
-                'Půlka hřiště — trénink, s osvětlením',
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#c8102e] shrink-0" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+
+            {/* Půlka hřiště */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-2">Půlka hřiště</p>
+              <div className="space-y-2">
+                {[
+                  { lights: false },
+                  { lights: true },
+                ].map(({ lights }) => (
+                  <div
+                    key={'pul' + lights}
+                    className="flex items-center gap-3 rounded-lg bg-white/5 border border-white/8 px-3 py-2.5"
+                  >
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#c8102e]/15 text-[#c8102e]">
+                      <Dumbbell className="h-4 w-4" />
+                    </div>
+                    <span className="flex-1 text-sm text-gray-200">Trénink</span>
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${lights ? 'bg-yellow-400/15 text-yellow-300' : 'bg-white/8 text-gray-500'}`}>
+                      {lights ? <Zap className="h-3 w-3" /> : <ZapOff className="h-3 w-3" />}
+                      {lights ? 'osvětlení' : 'bez světla'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="rounded-xl border border-amber-100 bg-amber-50 p-4 text-sm text-amber-800">
