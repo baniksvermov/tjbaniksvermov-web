@@ -144,16 +144,8 @@ export default async function ArticleDetailPage({ params }: Props) {
       )}
 
       {/* Sdílení */}
-      <div className="mt-10 border-t border-gray-100 pt-6 flex items-center gap-3">
+      <div className="mt-10 border-t border-gray-100 pt-6 flex flex-wrap items-center gap-3">
         <span className="text-sm text-gray-500">Sdílet:</span>
-        <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://tjbaniksvermov.cz/novinky/${article.slug}`)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-lg bg-[#1877f2] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-opacity"
-        >
-          Facebook
-        </a>
         <ShareButton />
       </div>
 
