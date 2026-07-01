@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { Clock, Phone, AlertTriangle, Trophy, Dumbbell, Zap, ZapOff } from 'lucide-react'
 import UmtBookingSection from './UmtBookingSection'
 
@@ -9,13 +10,32 @@ export const metadata: Metadata = {
 
 export default function UmtPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
-      <div className="mb-8">
-        <h1 className="font-[Anton] text-4xl uppercase tracking-wide">Pronájem UMT</h1>
-        <p className="mt-2 text-gray-500">
-          Umělá tráva Champion EPDM — k dispozici pro zápasy, tréninky a turnaje
-        </p>
+    <div>
+      {/* Hero foto dronu */}
+      <div className="relative h-64 sm:h-80 lg:h-[420px] overflow-hidden">
+        <Image
+          src="/hriste-dron.jpg"
+          alt="Letecký pohled na areál TJ Baník Švermov"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        {/* Tmavý gradient přes foto — pro čitelnost textu */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
+        {/* Nadpis přes foto */}
+        <div className="absolute bottom-0 left-0 right-0 px-4 py-8 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <h1 className="font-[Anton] text-4xl lg:text-5xl uppercase tracking-wide text-white">
+              Pronájem UMT
+            </h1>
+            <p className="mt-2 text-gray-300 text-sm lg:text-base">
+              Umělá tráva Champion EPDM — k dispozici pro zápasy, tréninky a turnaje
+            </p>
+          </div>
+        </div>
       </div>
+
+    <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8">
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         {/* Info panel */}
@@ -110,6 +130,7 @@ export default function UmtPage() {
           <UmtBookingSection />
         </div>
       </div>
+    </div>
     </div>
   )
 }
