@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 const contacts = [
   { name: 'David Nedvěd', phone: '+420 604 234 643', role: 'Předseda klubu' },
-  { name: 'Ivan Bělohradský', phone: '+420 731 920 066', role: 'Kontaktní osoba' },
-  { name: 'Marek Mencl', phone: '+420 608 269 063', role: 'Kontaktní osoba' },
+  { name: 'Marek Mencl', phone: '+420 608 269 063', role: 'Místopředseda klubu' },
+  { name: 'Ivan Bělohradský', phone: '+420 731 920 066', role: 'Správce klubu' },
 ]
 
 export default function KontaktPage() {
