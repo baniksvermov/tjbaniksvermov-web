@@ -35,7 +35,6 @@ const navItems = [
       { label: 'Info pro členy', href: '/klub/info-pro-cleny' },
     ],
   },
-  { label: 'Kalendář', href: '/kalendar' },
   { label: 'Hospoda', href: '/hospoda' },
   { label: 'Kontakt', href: '/kontakt' },
   { label: 'Shop', href: '/eshop' },

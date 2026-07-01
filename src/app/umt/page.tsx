@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import UmtForm from './UmtForm'
-import { Calendar, Clock, Phone, Info, AlertTriangle } from 'lucide-react'
+import { Clock, Phone, Info, AlertTriangle } from 'lucide-react'
+import UmtBookingSection from './UmtBookingSection'
 
 export const metadata: Metadata = {
   title: 'Pronájem UMT',
-  description: 'Pronájem umělé trávy TJ Baník Švermov. Vyplňte poptávku a ozveme se zpět.',
+  description: 'Pronájem umělé trávy TJ Baník Švermov. Zkontrolujte dostupné termíny a vyplňte poptávku.',
 }
 
 export default function UmtPage() {
@@ -23,13 +23,6 @@ export default function UmtPage() {
           <div className="rounded-xl bg-[#0a0a0a] text-white p-6">
             <h2 className="font-[Anton] text-xl uppercase tracking-wide mb-4">Informace</h2>
             <div className="space-y-4 text-sm">
-              <div className="flex items-start gap-3">
-                <Calendar className="h-4 w-4 text-[#c8102e] mt-0.5 shrink-0" />
-                <div>
-                  <p className="font-medium">Dostupnost</p>
-                  <p className="text-gray-400 mt-0.5">Celoročně, dle obsazenosti</p>
-                </div>
-              </div>
               <div className="flex items-start gap-3">
                 <Clock className="h-4 w-4 text-[#c8102e] mt-0.5 shrink-0" />
                 <div>
@@ -70,14 +63,16 @@ export default function UmtPage() {
           </div>
 
           <div className="rounded-xl border border-amber-100 bg-amber-50 p-4 text-sm text-amber-800">
-            <p className="font-medium mb-1 flex items-center gap-1.5"><AlertTriangle className="h-4 w-4" /> Upozornění</p>
+            <p className="font-medium mb-1 flex items-center gap-1.5">
+              <AlertTriangle className="h-4 w-4" /> Upozornění
+            </p>
             <p>Poptávka nezaručuje rezervaci termínu. Termín je potvrzen až po telefonickém domluvení.</p>
           </div>
         </div>
 
-        {/* Formulář */}
+        {/* Kalendář + Formulář */}
         <div className="lg:col-span-2">
-          <UmtForm />
+          <UmtBookingSection />
         </div>
       </div>
     </div>

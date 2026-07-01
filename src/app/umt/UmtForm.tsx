@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Send, CheckCircle } from 'lucide-react'
 
 const bookingTypes = [
@@ -12,10 +12,19 @@ const bookingTypes = [
   { value: 'half_lights', label: 'Půlka hřiště — trénink, s osvětlením' },
 ]
 
-export default function UmtForm() {
+interface Props {
+  selectedDate?: string
+}
+
+export default function UmtForm({ selectedDate = '' }: Props) {
   const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [dateValue, setDateValue] = useState(selectedDate)
+
+  useEffect(() => {
+    if (selectedDate) setDateValue(selectedDate)
+  }, [selectedDate])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -144,12 +153,17 @@ export default function UmtForm() {
         {/* Datum + čas */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Požadovaný den *</label>
+            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+              Požadovaný den *
+              {dateValue && <span className="ml-2 text-xs font-normal text-[#c8102e]">← vybráno z kalendáře</span>}
+            </label>
             <input
               name="requestedDate"
               type="date"
               required
               min={new Date().toISOString().split('T')[0]}
+              value={dateValue}
+              onChange={(e) => setDateValue(e.target.value)}
               className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
             />
           </div>
