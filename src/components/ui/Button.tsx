@@ -1,3 +1,4 @@
+import './_polyfill'
 import Link from 'next/link'
 import type { ComponentPropsWithoutRef } from 'react'
 
@@ -38,7 +39,7 @@ type ButtonAsButton = ButtonOwnProps & { href?: undefined } & Omit<
 
 type ButtonProps = ButtonAsLink | ButtonAsButton
 
-export default function Button({
+export function Button({
   variant = 'primary',
   size = 'md',
   className = '',

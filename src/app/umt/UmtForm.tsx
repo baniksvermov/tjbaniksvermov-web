@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { Send, CheckCircle } from 'lucide-react'
-import Input from '@/components/ui/Input'
-import Textarea from '@/components/ui/Textarea'
-import Select from '@/components/ui/Select'
-import Label from '@/components/ui/Label'
-import Button from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { Textarea } from '@/components/ui/Textarea'
+import { Select } from '@/components/ui/Select'
+import { Label } from '@/components/ui/Label'
+import { Button } from '@/components/ui/Button'
 
 const bookingTypes = [
   { value: 'match_no_lights', label: 'Celé hřiště — přípravný zápas, bez osvětlení' },

@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { X, Trash2, ShoppingBag } from 'lucide-react'
 import { useCart } from './CartProvider'
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/ui/Button'
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQty, total, itemKey } = useCart()

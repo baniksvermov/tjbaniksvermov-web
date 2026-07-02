@@ -3,8 +3,8 @@ import { ArrowRight, Calendar, Users, ShoppingBag, Shield, Trophy } from 'lucide
 import { getLatestArticles } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
 import HeroLogo from '@/components/HeroLogo'
-import Button from '@/components/ui/Button'
-import IconBadge from '@/components/ui/IconBadge'
+import { Button } from '@/components/ui/Button'
+import { IconBadge } from '@/components/ui/IconBadge'
 
 export const dynamic = 'force-dynamic'
 

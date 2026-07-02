@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
 import { useCart } from '@/components/shop/CartProvider'
-import IconBadge from '@/components/ui/IconBadge'
+import { IconBadge } from '@/components/ui/IconBadge'
 
 const navItems = [
   { label: 'Domů', href: '/' },

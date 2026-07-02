@@ -1,4 +1,10 @@
 {
   "projectId": "14f54298-e3aa-4098-86a9-f5be1de4270c",
-  "shape": "package"
+  "shape": "package",
+  "pkg": "tjbaniksvermov-web",
+  "globalName": "TJBanikUI",
+  "srcDir": "src/components/ui",
+  "cssEntry": "src/app/globals.css",
+  "extraFonts": ["../../.design-sync/fonts/anton.css"],
+  "readmeHeader": ".design-sync/conventions.md"
 }

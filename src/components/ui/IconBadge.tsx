@@ -22,7 +22,7 @@ interface IconBadgeProps {
   className?: string
 }
 
-export default function IconBadge({
+export function IconBadge({
   children,
   size = 'md',
   shape = 'square',

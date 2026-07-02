@@ -4,7 +4,7 @@ interface CardProps {
   className?: string
 }
 
-export default function Card({ children, hoverable = false, className = '' }: CardProps) {
+export function Card({ children, hoverable = false, className = '' }: CardProps) {
   const hoverClasses = hoverable ? 'hover:shadow-md hover:border-primary/30 transition-all' : ''
 
   return (

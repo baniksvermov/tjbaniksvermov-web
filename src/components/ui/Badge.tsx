@@ -5,7 +5,7 @@ interface BadgeProps {
   className?: string
 }
 
-export default function Badge({ children, color, variant = 'solid', className = '' }: BadgeProps) {
+export function Badge({ children, color, variant = 'solid', className = '' }: BadgeProps) {
   if (color) {
     return (
       <span

@@ -4,8 +4,8 @@ import { formatDistanceToNow } from 'date-fns'
 import { cs } from 'date-fns/locale'
 import { Newspaper } from 'lucide-react'
 import type { Article } from '@/types/database'
-import Badge from '@/components/ui/Badge'
-import Card from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Card } from '@/components/ui/Card'
 
 interface Props {
   article: Article
