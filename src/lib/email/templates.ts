@@ -168,6 +168,68 @@ export function emailCancelledCustomer(o: OrderData) {
   return { subject: `Objednávka ${o.order_number} zrušena`, html: base('Objednávka zrušena', body) }
 }
 
+// ─── Notifikace pro admina (nová poptávka pronájmu UMT) ─────────────────────
+
+export interface BookingData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  clubName?: string | null
+  requestedDate: string
+  timeFrom?: string | null
+  timeTo?: string | null
+  bookingTypeLabel: string
+  note?: string | null
+}
+
+export function emailNewBookingAdmin(b: BookingData) {
+  const dateLabel = new Date(b.requestedDate).toLocaleDateString('cs-CZ', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  })
+  const timeStr = b.timeFrom && b.timeTo ? `${b.timeFrom} – ${b.timeTo}` : b.timeFrom || 'neuvedeno'
+
+  const body = `
+    <h1 style="margin:0 0 4px;font-size:22px;color:${DARK};">Nová poptávka pronájmu UMT 🏟️</h1>
+    <p style="margin:0 0 24px;color:#6b7280;">Právě přišla poptávka přes formulář na webu.</p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
+      <tr>
+        <td style="padding:6px 0;font-size:14px;color:#6b7280;width:140px;">Jméno</td>
+        <td style="padding:6px 0;font-size:14px;font-weight:600;color:${DARK};">${b.firstName} ${b.lastName}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-size:14px;color:#6b7280;">E-mail</td>
+        <td style="padding:6px 0;font-size:14px;"><a href="mailto:${b.email}" style="color:${RED};text-decoration:none;">${b.email}</a></td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-size:14px;color:#6b7280;">Telefon</td>
+        <td style="padding:6px 0;font-size:14px;"><a href="tel:${b.phone}" style="color:${DARK};text-decoration:none;">${b.phone}</a></td>
+      </tr>
+      ${b.clubName ? `<tr><td style="padding:6px 0;font-size:14px;color:#6b7280;">Klub / organizace</td><td style="padding:6px 0;font-size:14px;color:${DARK};">${b.clubName}</td></tr>` : ''}
+      <tr><td colspan="2" style="padding:14px 0 6px;border-top:1px solid #e5e7eb;"></td></tr>
+      <tr>
+        <td style="padding:6px 0;font-size:14px;color:#6b7280;">Požadovaný den</td>
+        <td style="padding:6px 0;font-size:14px;font-weight:600;color:${DARK};">${dateLabel}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-size:14px;color:#6b7280;">Čas</td>
+        <td style="padding:6px 0;font-size:14px;color:${DARK};">${timeStr}</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 0 0;font-size:14px;color:#6b7280;vertical-align:top;">Typ pronájmu</td>
+        <td style="padding:10px 0 0;">${badge(b.bookingTypeLabel, RED)}</td>
+      </tr>
+    </table>
+
+    ${b.note ? `<div style="padding:14px 16px;background:#fffbeb;border-left:3px solid #f59e0b;border-radius:4px;font-size:14px;color:#92400e;white-space:pre-line;margin-bottom:20px;"><strong>Poznámka:</strong><br/>${b.note}</div>` : ''}
+
+    <div style="padding:16px 20px;background:#fff3cd;border-radius:8px;border:1px solid #fbbf24;">
+      <p style="margin:0;font-size:14px;color:#92400e;"><strong>Akce:</strong> potvrďte nebo zamítněte poptávku v administraci a ozvěte se zájemci na <a href="tel:${b.phone}" style="color:#92400e;">${b.phone}</a>.</p>
+    </div>`
+  return { subject: `🏟️ Nová poptávka UMT — ${b.firstName} ${b.lastName}`, html: base('Nová poptávka pronájmu UMT', body) }
+}
+
 // ─── Notifikace pro admina (nová přihláška „Chci hrát za Baník") ───────────
 
 export interface NaborData {
