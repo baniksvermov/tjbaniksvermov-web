@@ -1,10 +1,12 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
 import { useCart } from '@/components/shop/CartProvider'
 import { IconBadge } from '@/components/ui/IconBadge'
+import { Button } from '@/components/ui/Button'
 
 const navItems = [
   { label: 'Domů', href: '/' },
@@ -38,10 +40,15 @@ const navItems = [
   },
   { label: 'Hospoda', href: '/hospoda' },
   { label: 'Kontakt', href: '/kontakt' },
-  { label: 'Shop', href: '/eshop' },
+  { label: 'Přidej se', href: '/pridej-se' },
 ]
 
+function isActive(pathname: string, href: string) {
+  return href === '/' ? pathname === '/' : pathname.startsWith(href)
+}
+
 export default function Header() {
+  const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const [expandedMobile, setExpandedMobile] = useState<string | null>(null)
@@ -67,39 +74,44 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0a0a0a] text-white shadow-lg">
+    <header className="sticky top-0 z-50 bg-white text-foreground border-b border-border">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3" onClick={closeMobile}>
-          <IconBadge shape="circle" tone="solid" size="sm" className="text-sm leading-none">
+          <IconBadge tone="solid" size="sm" className="text-sm leading-none shrink-0">
             TJB
           </IconBadge>
-          <span className="font-[Anton] text-xl uppercase tracking-wide hidden sm:block">
-            TJ Baník Švermov
+          <span className="hidden sm:flex flex-col leading-tight">
+            <span className="text-sm font-extrabold uppercase tracking-wide">TJ Baník Švermov</span>
+            <span className="text-xs text-gray-500">fotbalový klub · Kladno</span>
           </span>
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1">
-          {navItems.map((item) =>
-            item.children ? (
+          {navItems.map((item) => {
+            const active = isActive(pathname, item.href)
+            const linkClasses = `border-b-2 px-3 py-2 text-sm font-semibold uppercase tracking-wide transition-colors ${
+              active ? 'border-primary text-primary' : 'border-transparent text-gray-600 hover:text-primary'
+            }`
+            return item.children ? (
               <div
                 key={item.label}
                 className="relative"
                 onMouseEnter={() => setOpenDropdown(item.label)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <button className="flex items-center gap-1 rounded px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-colors">
+                <button className={`flex items-center gap-1 ${linkClasses}`}>
                   {item.label}
                   <ChevronDown className="h-3.5 w-3.5" />
                 </button>
                 {openDropdown === item.label && (
-                  <div className="absolute top-full left-0 mt-0 w-52 rounded-b-lg bg-[#0a0a0a] border border-white/10 shadow-xl py-1">
+                  <div className="absolute top-full left-0 mt-0 w-52 rounded-b-lg bg-white border border-border shadow-xl py-1">
                     {item.children.map((child) => (
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-primary hover:text-white transition-colors"
+                        className="block px-4 py-2 text-sm text-gray-600 hover:bg-primary hover:text-white transition-colors"
                       >
                         {child.label}
                       </Link>
@@ -108,22 +120,18 @@ export default function Header() {
                 )}
               </div>
             ) : (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="rounded px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-colors"
-              >
+              <Link key={item.label} href={item.href} className={linkClasses}>
                 {item.label}
               </Link>
             )
-          )}
+          })}
         </nav>
 
-        {/* Cart icon + hamburger */}
-        <div className="flex items-center gap-1">
+        {/* Cart icon + Shop + hamburger */}
+        <div className="flex items-center gap-2">
           <button
             onClick={openCart}
-            className="relative p-2 text-gray-300 hover:text-white"
+            className="relative p-2 text-gray-600 hover:text-primary"
             aria-label="Košík"
           >
             <ShoppingBag className="h-5 w-5" />
@@ -134,8 +142,12 @@ export default function Header() {
             )}
           </button>
 
+          <Button href="/eshop" size="sm" className="hidden sm:inline-flex">
+            Shop
+          </Button>
+
           <button
-            className="lg:hidden p-2 rounded text-gray-300 hover:text-white"
+            className="lg:hidden p-2 rounded text-gray-600 hover:text-primary"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menu"
           >
@@ -146,14 +158,14 @@ export default function Header() {
 
       {/* Mobile menu — full screen overlay */}
       {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 top-16 z-40 bg-[#0a0a0a] overflow-y-auto overscroll-contain">
+        <div className="lg:hidden fixed inset-0 top-16 z-40 bg-white overflow-y-auto overscroll-contain">
           <nav className="px-4 py-4 pb-12">
             {navItems.map((item) =>
               item.children ? (
-                <div key={item.label} className="border-b border-white/5">
+                <div key={item.label} className="border-b border-border">
                   {/* Accordion hlavička */}
                   <button
-                    className="flex w-full items-center justify-between py-4 text-base font-semibold text-white"
+                    className="flex w-full items-center justify-between py-4 text-base font-semibold text-foreground"
                     onClick={() => toggleSection(item.label)}
                   >
                     {item.label}
@@ -170,7 +182,7 @@ export default function Header() {
                         <Link
                           key={child.href}
                           href={child.href}
-                          className="block rounded-lg px-3 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white"
+                          className="block rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary"
                           onClick={closeMobile}
                         >
                           {child.label}
@@ -183,13 +195,20 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex items-center border-b border-white/5 py-4 text-base font-semibold text-white hover:text-primary transition-colors"
+                  className="flex items-center border-b border-border py-4 text-base font-semibold text-foreground hover:text-primary transition-colors"
                   onClick={closeMobile}
                 >
                   {item.label}
                 </Link>
               )
             )}
+            <Link
+              href="/eshop"
+              className="flex items-center border-b border-border py-4 text-base font-semibold text-primary"
+              onClick={closeMobile}
+            >
+              Shop
+            </Link>
           </nav>
         </div>
       )}

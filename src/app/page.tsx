@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import { ArrowRight, Calendar, Users, ShoppingBag, Shield, Trophy } from 'lucide-react'
+import { ArrowRight, Calendar, Users, ShoppingBag, Trophy } from 'lucide-react'
 import { getLatestArticles } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
-import HeroLogo from '@/components/HeroLogo'
 import { Button } from '@/components/ui/Button'
 import { IconBadge } from '@/components/ui/IconBadge'
 
@@ -13,39 +12,61 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-[#0a0a0a] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#0a0a0a]" />
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#c8102e] opacity-5 skew-x-12 translate-x-20" />
-        <HeroLogo />
-        <div className="relative mx-auto max-w-7xl px-4 py-24 lg:px-8 lg:py-36">
-          <div className="max-w-2xl">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#c8102e]/30 bg-[#c8102e]/10 px-4 py-1.5 text-sm text-[#c8102e]">
-              <Shield className="h-3.5 w-3.5" /> Fotbalový klub — Kladno Švermov
-            </div>
-            <h1 className="font-[Anton] text-5xl uppercase tracking-wide leading-tight lg:text-7xl">
-              TJ Baník
-              <br />
-              <span className="text-[#c8102e]">Švermov</span>
-            </h1>
-            <p className="mt-6 text-lg text-gray-400 leading-8 max-w-lg">
-              Fotbalový klub s tradicí od roku 1910. Hrajeme pro radost z fotbalu
-              od nejmenších až po dospělé muže.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button href="/novinky" size="lg">
-                Aktuální novinky
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-              <Button href="/tymy/a-muzstvo" variant="outline" size="lg">
-                Naše týmy
-              </Button>
-            </div>
+      <section className="relative bg-white overflow-hidden">
+        <div className="relative mx-auto max-w-7xl px-4 py-20 lg:px-8 lg:py-28">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="h-px w-10 bg-primary" />
+            <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">
+              Fotbalový klub · Kladno–Švermov
+            </span>
+          </div>
+          <h1
+            aria-label="Baník Švermov"
+            className="font-[Anton] text-foreground uppercase leading-none text-6xl sm:text-7xl lg:text-8xl xl:text-9xl"
+          >
+            <span aria-hidden="true">
+              <span className="block">Baník</span>
+              <span className="mt-[0.3em] block">
+                <span className="relative inline-block">
+                  {/* Anton nemá pořádně podporovaný háček nad Š — dokreslen ručně jako SVG */}
+                  <svg
+                    viewBox="0 0 24 12"
+                    fill="none"
+                    className="absolute left-1/2 top-[-0.26em] h-[0.2em] w-[0.42em] -translate-x-1/2 text-foreground"
+                  >
+                    <path
+                      d="M2 2 L12 9 L22 2"
+                      stroke="currentColor"
+                      strokeWidth="6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  S
+                </span>
+                vermov
+                <span className="ml-2 inline-block h-[0.16em] w-[0.16em] align-baseline bg-primary" />
+              </span>
+            </span>
+          </h1>
+          <p className="mt-8 max-w-lg text-lg leading-8 text-gray-600">
+            Fotbalový klub s tradicí od roku 1910. Hrajeme pro radost z fotbalu
+            od nejmenších až po dospělé muže.
+          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-6">
+            <Button href="/pridej-se" size="lg">
+              Chci hrát za Baník
+            </Button>
+            <Button href="/klub" variant="ghost">
+              Více o klubu
+              <ArrowRight className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Quick links */}
-      <section className="bg-[#0a0a0a]">
+      <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[
@@ -108,25 +129,35 @@ export default async function HomePage() {
       </section>
 
       {/* Týmy */}
-      <section className="bg-[#0a0a0a] text-white py-16">
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <h2 className="font-[Anton] text-3xl uppercase tracking-wide mb-8 text-center">
-            Naše týmy
+      <section className="bg-white py-20">
+        <div className="mx-auto max-w-7xl px-4 text-center lg:px-8">
+          <h2 className="font-[Anton] text-foreground uppercase text-4xl sm:text-5xl lg:text-6xl">
+            Hrajeme pro radost z fotbalu
+            <span className="ml-1 inline-block h-[0.16em] w-[0.16em] align-baseline bg-primary" />
           </h2>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          <p className="mt-4 text-sm font-semibold uppercase tracking-widest text-gray-500">
+            Od těch nejmenších až po dospělé
+          </p>
+        </div>
+
+        <div className="mx-auto mt-16 max-w-7xl border-t border-border px-4 pt-12 lg:px-8">
+          <p className="mb-10 text-center text-xs font-semibold uppercase tracking-widest text-gray-500">
+            Naše týmy
+          </p>
+          <div className="grid grid-cols-2 gap-y-8 sm:grid-cols-3 lg:grid-cols-6 lg:gap-y-0 lg:divide-x lg:divide-border">
             {[
-              { label: 'A-mužstvo', href: '/tymy/a-muzstvo' },
-              { label: 'B-mužstvo', href: '/tymy/b-muzstvo' },
-              { label: 'Dorost', href: '/tymy/dorost-ia' },
-              { label: 'Žáci', href: '/tymy/starsi-zaci' },
-              { label: 'Přípravka', href: '/tymy/starsi-pripravka' },
+              { label: 'A-mužstvo', sub: 'Muži', href: '/tymy/a-muzstvo' },
+              { label: 'B-mužstvo', sub: 'Muži', href: '/tymy/b-muzstvo' },
+              { label: 'Dorost', sub: 'U19 · 1.A třída', href: '/tymy/dorost-ia' },
+              { label: 'Žáci', sub: 'Starší žáci', href: '/tymy/starsi-zaci' },
+              { label: 'Přípravka', sub: 'Starší přípravka', href: '/tymy/starsi-pripravka' },
+              { label: 'Mini', sub: 'Nejmenší', href: '/tymy/mini' },
             ].map((team) => (
-              <Link
-                key={team.href}
-                href={team.href}
-                className="flex items-center justify-center rounded-lg border border-white/10 px-4 py-4 text-sm font-semibold text-center hover:bg-[#c8102e] hover:border-[#c8102e] transition-colors"
-              >
-                {team.label}
+              <Link key={team.href} href={team.href} className="group px-4 py-2 text-center">
+                <p className="font-[Anton] uppercase text-xl text-foreground transition-colors group-hover:text-primary">
+                  {team.label}
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-wide text-gray-500">{team.sub}</p>
               </Link>
             ))}
           </div>

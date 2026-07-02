@@ -168,6 +168,48 @@ export function emailCancelledCustomer(o: OrderData) {
   return { subject: `Objednávka ${o.order_number} zrušena`, html: base('Objednávka zrušena', body) }
 }
 
+// ─── Notifikace pro admina (nová přihláška „Chci hrát za Baník") ───────────
+
+export interface NaborData {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  birthYear?: string | null
+  team?: string | null
+  note?: string | null
+}
+
+export function emailNewNaborAdmin(n: NaborData) {
+  const body = `
+    <h1 style="margin:0 0 4px;font-size:22px;color:${DARK};">Chci hrát za Baník ⚽</h1>
+    <p style="margin:0 0 24px;color:#6b7280;">Nová přihláška z webu.</p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
+      <tr>
+        <td style="padding:6px 0;font-size:14px;color:#6b7280;width:140px;">Jméno</td>
+        <td style="padding:6px 0;font-size:14px;font-weight:600;color:${DARK};">${n.firstName} ${n.lastName}</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-size:14px;color:#6b7280;">E-mail</td>
+        <td style="padding:6px 0;font-size:14px;"><a href="mailto:${n.email}" style="color:${RED};text-decoration:none;">${n.email}</a></td>
+      </tr>
+      <tr>
+        <td style="padding:6px 0;font-size:14px;color:#6b7280;">Telefon</td>
+        <td style="padding:6px 0;font-size:14px;"><a href="tel:${n.phone}" style="color:${DARK};text-decoration:none;">${n.phone}</a></td>
+      </tr>
+      ${n.birthYear ? `<tr><td style="padding:6px 0;font-size:14px;color:#6b7280;">Rok narození</td><td style="padding:6px 0;font-size:14px;color:${DARK};">${n.birthYear}</td></tr>` : ''}
+      ${n.team ? `<tr><td style="padding:10px 0 0;font-size:14px;color:#6b7280;vertical-align:top;">Preferovaný tým</td><td style="padding:10px 0 0;">${badge(n.team, RED)}</td></tr>` : ''}
+    </table>
+
+    ${n.note ? `<div style="padding:14px 16px;background:#fffbeb;border-left:3px solid #f59e0b;border-radius:4px;font-size:14px;color:#92400e;white-space:pre-line;margin-bottom:20px;"><strong>Poznámka:</strong><br/>${n.note}</div>` : ''}
+
+    <div style="padding:16px 20px;background:#f0fdf4;border-radius:8px;">
+      <p style="margin:0;font-size:14px;color:#166534;font-weight:600;">📞 Ozvěte se zájemci co nejdřív, ideálně do 48 hodin.</p>
+    </div>`
+  return { subject: `⚽ Nová přihláška — ${n.firstName} ${n.lastName}`, html: base('Nová přihláška', body) }
+}
+
 // ─── Notifikace pro admina (nová objednávka) ────────────────────────────────
 
 export function emailNewOrderAdmin(o: OrderData) {
