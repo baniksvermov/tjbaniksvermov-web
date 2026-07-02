@@ -10,7 +10,10 @@ interface Props {
   categories: ProductCategory[]
 }
 
-const RELEVANT_SLUGS = ['bundy', 'mikiny', 'tricka', 'teplaky-sortky']
+const RELEVANT_SLUGS = [
+  'bundy', 'mikiny', 'tricka', 'teplaky-sortky',
+  'funkcni-pradlo', 'tasky-a-batohy', 'brankarska-vybava', 'doplnky', 'stulpny',
+]
 
 export default function EshopClient({ products, categories }: Props) {
   const [activeCat, setActiveCat] = useState<string>('vse')
