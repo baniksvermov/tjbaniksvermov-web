@@ -3,6 +3,8 @@ import { ArrowRight, Calendar, Users, ShoppingBag, Shield, Trophy } from 'lucide
 import { getLatestArticles } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
 import HeroLogo from '@/components/HeroLogo'
+import Button from '@/components/ui/Button'
+import IconBadge from '@/components/ui/IconBadge'
 
 export const dynamic = 'force-dynamic'
 
@@ -30,19 +32,13 @@ export default async function HomePage() {
               od nejmenších až po dospělé muže.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/novinky"
-                className="inline-flex items-center gap-2 rounded-lg bg-[#c8102e] px-6 py-3 text-sm font-semibold text-white hover:bg-[#a50d25] transition-colors"
-              >
+              <Button href="/novinky" size="lg">
                 Aktuální novinky
                 <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/tymy/a-muzstvo"
-                className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
-              >
+              </Button>
+              <Button href="/tymy/a-muzstvo" variant="outline" size="lg">
                 Naše týmy
-              </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -66,9 +62,12 @@ export default async function HomePage() {
                 <div className="absolute -top-6 -left-6 h-24 w-24 rounded-full bg-[#c8102e]/10 blur-2xl group-hover:bg-[#c8102e]/20 transition-colors duration-300" />
 
                 {/* Icon */}
-                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#c8102e]/10 border border-[#c8102e]/20 text-[#c8102e] group-hover:bg-[#c8102e] group-hover:border-[#c8102e] group-hover:text-white transition-all duration-200">
+                <IconBadge
+                  bordered
+                  className="relative group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all duration-200"
+                >
                   <Icon className="h-6 w-6" />
-                </div>
+                </IconBadge>
 
                 {/* Text */}
                 <div className="flex-1 min-w-0">
@@ -90,12 +89,9 @@ export default async function HomePage() {
           <h2 className="font-[Anton] text-3xl uppercase tracking-wide">
             Poslední novinky
           </h2>
-          <Link
-            href="/novinky"
-            className="inline-flex items-center gap-1 text-sm font-medium text-[#c8102e] hover:underline"
-          >
+          <Button href="/novinky" variant="ghost">
             Všechny novinky <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+          </Button>
         </div>
         {latestArticles.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -146,13 +142,10 @@ export default async function HomePage() {
           <p className="text-red-100 mb-6 max-w-xl mx-auto">
             Máte zájem o pronájem UMT? Vyplňte poptávku a my se vám ozveme zpět.
           </p>
-          <Link
-            href="/umt"
-            className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-semibold text-[#c8102e] hover:bg-red-50 transition-colors"
-          >
+          <Button href="/umt" variant="inverse" size="lg">
             Zaslat poptávku
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </Button>
         </div>
       </section>
     </>

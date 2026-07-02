@@ -44,7 +44,7 @@ export default function EshopClient({ products, categories }: Props) {
             onClick={() => setActiveCat('vse')}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
               activeCat === 'vse'
-                ? 'bg-[#c8102e] text-white'
+                ? 'bg-primary text-white'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -61,7 +61,7 @@ export default function EshopClient({ products, categories }: Props) {
                 onClick={() => setActiveCat(cat.slug)}
                 className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
                   activeCat === cat.slug
-                    ? 'bg-[#c8102e] text-white'
+                    ? 'bg-primary text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -101,7 +101,7 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/eshop/${product.slug}`}
-      className="group flex flex-col rounded-lg border border-gray-100 overflow-hidden hover:border-[#c8102e] hover:shadow-md transition-all"
+      className="group flex flex-col rounded-lg border border-gray-100 overflow-hidden hover:border-primary hover:shadow-md transition-all"
     >
       {/* Image */}
       <div className="aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
@@ -121,11 +121,11 @@ function ProductCard({ product }: { product: Product }) {
       {/* Info */}
       <div className="flex flex-col flex-1 p-3 gap-1">
         {cat && (
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#c8102e]">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">
             {cat.name}
           </span>
         )}
-        <h3 className="text-sm font-medium leading-tight line-clamp-2 group-hover:text-[#c8102e] transition-colors">
+        <h3 className="text-sm font-medium leading-tight line-clamp-2 group-hover:text-primary transition-colors">
           {product.name}
         </h3>
         <div className="mt-auto pt-2">

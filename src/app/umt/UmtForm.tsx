@@ -2,6 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { Send, CheckCircle } from 'lucide-react'
+import Input from '@/components/ui/Input'
+import Textarea from '@/components/ui/Textarea'
+import Select from '@/components/ui/Select'
+import Label from '@/components/ui/Label'
+import Button from '@/components/ui/Button'
 
 const bookingTypes = [
   { value: 'match_no_lights', label: 'Celé hřiště — přípravný zápas, bez osvětlení' },
@@ -68,25 +73,22 @@ export default function UmtForm({ selectedDate = '' }: Props) {
     return (
       <div className="rounded-2xl border border-green-100 bg-green-50 p-10 text-center">
         <CheckCircle className="mx-auto h-12 w-12 text-green-500 mb-4" />
-        <h2 className="font-[Anton] text-2xl uppercase tracking-wide text-[#0a0a0a] mb-2">
+        <h2 className="font-[Anton] text-2xl uppercase tracking-wide text-foreground mb-2">
           Poptávka odeslána!
         </h2>
         <p className="text-gray-600 max-w-md mx-auto">
           Děkujeme za zájem. Ozveme se vám telefonicky pro potvrzení termínu, zpravidla do 24 hodin.
         </p>
-        <button
-          onClick={() => setSent(false)}
-          className="mt-6 text-sm text-[#c8102e] hover:underline"
-        >
+        <Button variant="ghost" onClick={() => setSent(false)} className="mt-6">
           Odeslat další poptávku
-        </button>
+        </Button>
       </div>
     )
   }
 
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-100 bg-white p-6 lg:p-8">
-      <h2 className="font-[Anton] text-2xl uppercase tracking-wide text-[#0a0a0a] mb-6">
+      <h2 className="font-[Anton] text-2xl uppercase tracking-wide text-foreground mb-6">
         Poptávka pronájmu
       </h2>
 
@@ -97,118 +99,74 @@ export default function UmtForm({ selectedDate = '' }: Props) {
         {/* Jméno + příjmení */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Jméno *</label>
-            <input
-              name="firstName"
-              required
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
-              placeholder="Jan"
-            />
+            <Label>Jméno *</Label>
+            <Input name="firstName" required placeholder="Jan" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Příjmení *</label>
-            <input
-              name="lastName"
-              required
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
-              placeholder="Novák"
-            />
+            <Label>Příjmení *</Label>
+            <Input name="lastName" required placeholder="Novák" />
           </div>
         </div>
 
         {/* Email + telefon */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Email *</label>
-            <input
-              name="email"
-              type="email"
-              required
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
-              placeholder="jan@email.cz"
-            />
+            <Label>Email *</Label>
+            <Input name="email" type="email" required placeholder="jan@email.cz" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Telefon *</label>
-            <input
-              name="phone"
-              type="tel"
-              required
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
-              placeholder="+420 600 000 000"
-            />
+            <Label>Telefon *</Label>
+            <Input name="phone" type="tel" required placeholder="+420 600 000 000" />
           </div>
         </div>
 
         {/* Název klubu/organizace */}
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-gray-700">Klub / organizace</label>
-          <input
-            name="clubName"
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
-            placeholder="FK Příklad"
-          />
+          <Label>Klub / organizace</Label>
+          <Input name="clubName" placeholder="FK Příklad" />
         </div>
 
         {/* Datum + čas */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">
+            <Label>
               Požadovaný den *
-              {dateValue && <span className="ml-2 text-xs font-normal text-[#c8102e]">← vybráno z kalendáře</span>}
-            </label>
-            <input
+              {dateValue && <span className="ml-2 text-xs font-normal text-primary">← vybráno z kalendáře</span>}
+            </Label>
+            <Input
               name="requestedDate"
               type="date"
               required
               min={new Date().toISOString().split('T')[0]}
               value={dateValue}
               onChange={(e) => setDateValue(e.target.value)}
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Od</label>
-            <input
-              name="timeFrom"
-              type="time"
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
-            />
+            <Label>Od</Label>
+            <Input name="timeFrom" type="time" />
           </div>
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">Do</label>
-            <input
-              name="timeTo"
-              type="time"
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
-            />
+            <Label>Do</Label>
+            <Input name="timeTo" type="time" />
           </div>
         </div>
 
         {/* Typ pronájmu */}
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-gray-700">Typ pronájmu *</label>
-          <select
-            name="bookingType"
-            required
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors"
-          >
+          <Label>Typ pronájmu *</Label>
+          <Select name="bookingType" required>
             <option value="">— vyberte typ —</option>
             {bookingTypes.map((t) => (
               <option key={t.value} value={t.value}>{t.label}</option>
             ))}
-          </select>
+          </Select>
         </div>
 
         {/* Poznámka */}
         <div>
-          <label className="mb-1.5 block text-sm font-medium text-gray-700">Poznámka</label>
-          <textarea
-            name="note"
-            rows={3}
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:border-[#c8102e] focus:outline-none focus:ring-1 focus:ring-[#c8102e] transition-colors resize-none"
-            placeholder="Další informace, požadavky..."
-          />
+          <Label>Poznámka</Label>
+          <Textarea name="note" rows={3} className="resize-none" placeholder="Další informace, požadavky..." />
         </div>
 
         {/* GDPR */}
@@ -217,11 +175,11 @@ export default function UmtForm({ selectedDate = '' }: Props) {
             type="checkbox"
             id="gdpr"
             required
-            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-[#c8102e] focus:ring-[#c8102e]"
+            className="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
           />
           <label htmlFor="gdpr" className="text-sm text-gray-600">
             Souhlasím se zpracováním osobních údajů za účelem vyřízení poptávky pronájmu.{' '}
-            <a href="/ochrana-osobnich-udaju" className="text-[#c8102e] hover:underline">
+            <a href="/ochrana-osobnich-udaju" className="text-primary hover:underline">
               Ochrana osobních údajů
             </a>
           </label>
@@ -233,14 +191,10 @@ export default function UmtForm({ selectedDate = '' }: Props) {
           </div>
         )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-[#c8102e] py-3 text-sm font-semibold text-white hover:bg-[#a50d25] disabled:opacity-50 transition-colors"
-        >
+        <Button type="submit" disabled={loading} size="lg" className="w-full">
           <Send className="h-4 w-4" />
           {loading ? 'Odesílám...' : 'Odeslat poptávku'}
-        </button>
+        </Button>
       </div>
     </form>
   )

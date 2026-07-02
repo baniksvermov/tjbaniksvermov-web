@@ -5,6 +5,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ChevronRight, ShoppingBag, Trash2, Minus, Plus } from 'lucide-react'
 import { useCart } from '@/components/shop/CartProvider'
+import Input from '@/components/ui/Input'
+import Textarea from '@/components/ui/Textarea'
+import Label from '@/components/ui/Label'
+import Button from '@/components/ui/Button'
 
 export default function ObjednavkaPage() {
   const { items, total, removeItem, itemKey, clearCart } = useCart()
@@ -102,9 +106,7 @@ export default function ObjednavkaPage() {
       <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4 text-gray-400">
         <ShoppingBag className="h-16 w-16" />
         <p className="text-lg">Košík je prázdný</p>
-        <Link href="/eshop" className="rounded bg-[#c8102e] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#a00e26]">
-          Zpět do e-shopu
-        </Link>
+        <Button href="/eshop">Zpět do e-shopu</Button>
       </div>
     )
   }
@@ -138,34 +140,29 @@ export default function ObjednavkaPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Jméno <span className="text-red-500">*</span></label>
-                  <input type="text" required value={form.firstName} onChange={(e) => setField('firstName', e.target.value)}
-                    className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#c8102e]" placeholder="Jan" />
+                  <Label>Jméno <span className="text-red-500">*</span></Label>
+                  <Input type="text" required value={form.firstName} onChange={(e) => setField('firstName', e.target.value)} placeholder="Jan" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Příjmení <span className="text-red-500">*</span></label>
-                  <input type="text" required value={form.lastName} onChange={(e) => setField('lastName', e.target.value)}
-                    className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#c8102e]" placeholder="Novák" />
+                  <Label>Příjmení <span className="text-red-500">*</span></Label>
+                  <Input type="text" required value={form.lastName} onChange={(e) => setField('lastName', e.target.value)} placeholder="Novák" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">E-mail <span className="text-red-500">*</span></label>
-                <input type="email" required value={form.email} onChange={(e) => setField('email', e.target.value)}
-                  className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#c8102e]" placeholder="jan.novak@email.cz" />
+                <Label>E-mail <span className="text-red-500">*</span></Label>
+                <Input type="email" required value={form.email} onChange={(e) => setField('email', e.target.value)} placeholder="jan.novak@email.cz" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Telefon</label>
-                <input type="tel" value={form.phone} onChange={(e) => setField('phone', e.target.value)}
-                  className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#c8102e]" placeholder="+420 123 456 789" />
+                <Label>Telefon</Label>
+                <Input type="tel" value={form.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="+420 123 456 789" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Poznámka</label>
-                <textarea rows={3} value={form.note} onChange={(e) => setField('note', e.target.value)}
-                  className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#c8102e] resize-none"
-                  placeholder="Dodatečné informace k objednávce…" />
+                <Label>Poznámka</Label>
+                <Textarea rows={3} value={form.note} onChange={(e) => setField('note', e.target.value)}
+                  className="resize-none" placeholder="Dodatečné informace k objednávce…" />
               </div>
             </div>
 
@@ -173,10 +170,9 @@ export default function ObjednavkaPage() {
               <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">{error}</div>
             )}
 
-            <button type="submit" disabled={loading}
-              className="w-full rounded-lg bg-[#c8102e] py-3.5 text-sm font-semibold text-white hover:bg-[#a00e26] disabled:opacity-60 transition-colors">
+            <Button type="submit" disabled={loading} size="lg" className="w-full">
               {loading ? 'Odesílám…' : 'Odeslat objednávku'}
-            </button>
+            </Button>
 
             <p className="text-xs text-gray-500 text-center">
               Po odeslání vás budeme kontaktovat na zadaný e-mail nebo telefon s dalšími informacemi o platbě a vyzvednutí.
@@ -201,14 +197,14 @@ export default function ObjednavkaPage() {
                     <div className="flex items-center gap-2.5">
                       <input type="checkbox" checked={potiskKlubu.enabled}
                         onChange={(e) => setPotiskKlubu((p) => ({ ...p, enabled: e.target.checked }))}
-                        className="h-4 w-4 rounded border-gray-300 text-[#c8102e] focus:ring-[#c8102e]" />
+                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
                       <div>
                         <p className="text-sm font-medium">Potisk klubu</p>
                         <p className="text-xs text-gray-400">60 Kč / ks</p>
                       </div>
                     </div>
                     {potiskKlubu.enabled && (
-                      <span className="text-sm font-semibold text-[#c8102e]">{potiskKlubu.qty * 60} Kč</span>
+                      <span className="text-sm font-semibold text-primary">{potiskKlubu.qty * 60} Kč</span>
                     )}
                   </label>
                   {potiskKlubu.enabled && (
@@ -237,21 +233,21 @@ export default function ObjednavkaPage() {
                     <div className="flex items-center gap-2.5">
                       <input type="checkbox" checked={potiskTextZada.enabled}
                         onChange={(e) => setPotiskTextZada((p) => ({ ...p, enabled: e.target.checked }))}
-                        className="h-4 w-4 rounded border-gray-300 text-[#c8102e] focus:ring-[#c8102e]" />
+                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
                       <div>
                         <p className="text-sm font-medium">Potisk text záda</p>
                         <p className="text-xs text-gray-400">60 Kč</p>
                       </div>
                     </div>
                     {potiskTextZada.enabled && (
-                      <span className="text-sm font-semibold text-[#c8102e]">60 Kč</span>
+                      <span className="text-sm font-semibold text-primary">60 Kč</span>
                     )}
                   </label>
                   {potiskTextZada.enabled && (
-                    <input type="text" value={potiskTextZada.text}
+                    <Input type="text" value={potiskTextZada.text}
                       onChange={(e) => setPotiskTextZada((p) => ({ ...p, text: e.target.value }))}
                       placeholder="Text na záda…"
-                      className="mt-2 w-full rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#c8102e]" />
+                      className="mt-2 !px-3 !py-1.5" />
                   )}
                 </div>
 
@@ -261,21 +257,21 @@ export default function ObjednavkaPage() {
                     <div className="flex items-center gap-2.5">
                       <input type="checkbox" checked={potiskJmeno.enabled}
                         onChange={(e) => setPotiskJmeno((p) => ({ ...p, enabled: e.target.checked }))}
-                        className="h-4 w-4 rounded border-gray-300 text-[#c8102e] focus:ring-[#c8102e]" />
+                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
                       <div>
                         <p className="text-sm font-medium">Potisk jméno</p>
                         <p className="text-xs text-gray-400">70 Kč</p>
                       </div>
                     </div>
                     {potiskJmeno.enabled && (
-                      <span className="text-sm font-semibold text-[#c8102e]">70 Kč</span>
+                      <span className="text-sm font-semibold text-primary">70 Kč</span>
                     )}
                   </label>
                   {potiskJmeno.enabled && (
-                    <input type="text" value={potiskJmeno.value}
+                    <Input type="text" value={potiskJmeno.value}
                       onChange={(e) => setPotiskJmeno((p) => ({ ...p, value: e.target.value }))}
                       placeholder="Příjmení / jméno…"
-                      className="mt-2 w-full rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#c8102e]" />
+                      className="mt-2 !px-3 !py-1.5" />
                   )}
                 </div>
 
@@ -285,22 +281,22 @@ export default function ObjednavkaPage() {
                     <div className="flex items-center gap-2.5">
                       <input type="checkbox" checked={potiskCislo.enabled}
                         onChange={(e) => setPotiskCislo((p) => ({ ...p, enabled: e.target.checked }))}
-                        className="h-4 w-4 rounded border-gray-300 text-[#c8102e] focus:ring-[#c8102e]" />
+                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
                       <div>
                         <p className="text-sm font-medium">Potisk číslo</p>
                         <p className="text-xs text-gray-400">1–9: 20 Kč · 10–99: 40 Kč</p>
                       </div>
                     </div>
                     {potiskCislo.enabled && cisloCena > 0 && (
-                      <span className="text-sm font-semibold text-[#c8102e]">{cisloCena} Kč</span>
+                      <span className="text-sm font-semibold text-primary">{cisloCena} Kč</span>
                     )}
                   </label>
                   {potiskCislo.enabled && (
                     <div className="mt-2 flex items-center gap-2">
-                      <input type="number" min={1} max={99} value={potiskCislo.value}
+                      <Input type="number" min={1} max={99} value={potiskCislo.value}
                         onChange={(e) => setPotiskCislo((p) => ({ ...p, value: e.target.value }))}
                         placeholder="1–99"
-                        className="w-24 rounded-lg border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#c8102e]" />
+                        className="!w-24 !px-3 !py-1.5" />
                       {potiskCislo.value && cisloCena === 0 && (
                         <p className="text-xs text-red-500">Zadejte číslo 1–99</p>
                       )}
@@ -377,7 +373,7 @@ export default function ObjednavkaPage() {
 
               <div className="mt-4 pt-4 border-t flex items-center justify-between font-semibold">
                 <span>Celkem</span>
-                <span className="text-[#c8102e] text-lg">{grandTotal.toLocaleString('cs-CZ')} Kč</span>
+                <span className="text-primary text-lg">{grandTotal.toLocaleString('cs-CZ')} Kč</span>
               </div>
               <p className="text-xs text-gray-400 mt-1">Cena bez dopravy</p>
             </div>

@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
-import Link from 'next/link'
 import { X, Trash2, ShoppingBag } from 'lucide-react'
 import { useCart } from './CartProvider'
+import Button from '@/components/ui/Button'
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQty, total, itemKey } = useCart()
@@ -30,7 +30,7 @@ export default function CartDrawer() {
         {/* Header */}
         <div className="flex items-center justify-between border-b px-5 py-4">
           <h2 className="font-[Anton] text-lg uppercase tracking-wide">
-            Košík {items.length > 0 && <span className="text-[#c8102e]">({items.length})</span>}
+            Košík {items.length > 0 && <span className="text-primary">({items.length})</span>}
           </h2>
           <button
             onClick={closeCart}
@@ -115,16 +115,12 @@ export default function CartDrawer() {
           <div className="border-t px-5 py-4 space-y-3">
             <div className="flex items-center justify-between text-base font-semibold">
               <span>Celkem</span>
-              <span className="text-[#c8102e]">{total.toLocaleString('cs-CZ')} Kč</span>
+              <span className="text-primary">{total.toLocaleString('cs-CZ')} Kč</span>
             </div>
             <p className="text-xs text-gray-500">Ceny jsou bez dopravy.</p>
-            <Link
-              href="/eshop/objednavka"
-              onClick={closeCart}
-              className="block w-full rounded bg-[#c8102e] py-3 text-center text-sm font-semibold text-white hover:bg-[#a00e26] transition-colors"
-            >
+            <Button href="/eshop/objednavka" onClick={closeCart} size="lg" className="w-full">
               Přejít k objednávce
-            </Link>
+            </Button>
           </div>
         )}
       </div>

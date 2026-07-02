@@ -106,7 +106,7 @@ export default function ProductDetailClient({ product }: Props) {
                     onClick={() => setActiveImg(i)}
                     className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-gray-50 border-2 transition-all ${
                       activeImg === i
-                        ? 'border-[#c8102e]'
+                        ? 'border-primary'
                         : 'border-transparent hover:border-gray-300'
                     }`}
                   >
@@ -120,7 +120,7 @@ export default function ProductDetailClient({ product }: Props) {
           {/* Info */}
           <div className="flex flex-col gap-5">
             {cat && (
-              <span className="text-xs font-semibold uppercase tracking-widest text-[#c8102e]">
+              <span className="text-xs font-semibold uppercase tracking-widest text-primary">
                 {cat.name}
               </span>
             )}
@@ -157,7 +157,7 @@ export default function ProductDetailClient({ product }: Props) {
                         title={color}
                         className={`relative h-9 w-9 rounded-full border-2 overflow-hidden transition-all flex-shrink-0 ${
                           selectedColor === color
-                            ? 'border-[#c8102e] scale-110 shadow-md ring-2 ring-[#c8102e]/20'
+                            ? 'border-primary scale-110 shadow-md ring-2 ring-primary/20'
                             : 'border-gray-300 hover:border-gray-500'
                         }`}
                       >
@@ -218,7 +218,7 @@ export default function ProductDetailClient({ product }: Props) {
                       onClick={() => setSelectedSize(size)}
                       className={`min-w-[3rem] rounded px-3 py-1.5 text-sm font-medium border transition-all ${
                         selectedSize === size
-                          ? 'border-[#c8102e] bg-[#c8102e] text-white'
+                          ? 'border-primary bg-primary text-white'
                           : 'border-gray-300 text-gray-700 hover:border-gray-500'
                       }`}
                     >
@@ -258,7 +258,7 @@ export default function ProductDetailClient({ product }: Props) {
               className={`flex items-center justify-center gap-2 rounded-lg py-3.5 px-6 text-sm font-semibold transition-all ${
                 added
                   ? 'bg-green-600 text-white'
-                  : 'bg-[#c8102e] text-white hover:bg-[#a00e26]'
+                  : 'bg-primary text-white hover:bg-primary-hover'
               }`}
             >
               {added ? (

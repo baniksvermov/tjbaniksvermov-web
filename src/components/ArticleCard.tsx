@@ -4,6 +4,8 @@ import { formatDistanceToNow } from 'date-fns'
 import { cs } from 'date-fns/locale'
 import { Newspaper } from 'lucide-react'
 import type { Article } from '@/types/database'
+import Badge from '@/components/ui/Badge'
+import Card from '@/components/ui/Card'
 
 interface Props {
   article: Article
@@ -36,12 +38,9 @@ export default function ArticleCard({ article, featured = false }: Props) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
             {article.category && (
-              <span
-                className="mb-2 inline-block rounded-full px-3 py-1 text-xs font-semibold text-white"
-                style={{ backgroundColor: article.category.color ?? '#c8102e' }}
-              >
+              <Badge color={article.category.color ?? undefined} className="mb-2">
                 {article.category.name}
-              </span>
+              </Badge>
             )}
             <h2 className="text-xl font-bold text-white leading-tight group-hover:text-red-200 transition-colors lg:text-2xl">
               {article.title}
@@ -58,7 +57,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
 
   return (
     <Link href={`/novinky/${article.slug}`} className="group block">
-      <div className="rounded-xl border border-gray-100 overflow-hidden hover:shadow-md hover:border-[#c8102e]/30 transition-all">
+      <Card hoverable>
         <div className="relative aspect-[16/9] bg-gray-100 overflow-hidden">
           {article.hero_image_url ? (
             <Image
@@ -75,14 +74,11 @@ export default function ArticleCard({ article, featured = false }: Props) {
         </div>
         <div className="p-4">
           {article.category && (
-            <span
-              className="mb-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
-              style={{ backgroundColor: article.category.color ?? '#c8102e' }}
-            >
+            <Badge color={article.category.color ?? undefined} className="mb-2 !px-2.5 !py-0.5">
               {article.category.name}
-            </span>
+            </Badge>
           )}
-          <h3 className="font-bold text-[#0a0a0a] leading-snug group-hover:text-[#c8102e] transition-colors line-clamp-2">
+          <h3 className="font-bold text-foreground leading-snug group-hover:text-primary transition-colors line-clamp-2">
             {article.title}
           </h3>
           {article.excerpt && (
@@ -90,7 +86,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
           )}
           <p className="mt-3 text-xs text-gray-400">{date}</p>
         </div>
-      </div>
+      </Card>
     </Link>
   )
 }

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
 import { useCart } from '@/components/shop/CartProvider'
+import IconBadge from '@/components/ui/IconBadge'
 
 const navItems = [
   { label: 'Domů', href: '/' },
@@ -70,9 +71,9 @@ export default function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3" onClick={closeMobile}>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#c8102e] font-bold text-white text-sm leading-none">
+          <IconBadge shape="circle" tone="solid" size="sm" className="text-sm leading-none">
             TJB
-          </div>
+          </IconBadge>
           <span className="font-[Anton] text-xl uppercase tracking-wide hidden sm:block">
             TJ Baník Švermov
           </span>
@@ -98,7 +99,7 @@ export default function Header() {
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-[#c8102e] hover:text-white transition-colors"
+                        className="block px-4 py-2 text-sm text-gray-300 hover:bg-primary hover:text-white transition-colors"
                       >
                         {child.label}
                       </Link>
@@ -127,7 +128,7 @@ export default function Header() {
           >
             <ShoppingBag className="h-5 w-5" />
             {itemCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#c8102e] text-[10px] font-bold text-white">
+              <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
                 {itemCount > 9 ? '9+' : itemCount}
               </span>
             )}
@@ -182,7 +183,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="flex items-center border-b border-white/5 py-4 text-base font-semibold text-white hover:text-[#c8102e] transition-colors"
+                  className="flex items-center border-b border-white/5 py-4 text-base font-semibold text-white hover:text-primary transition-colors"
                   onClick={closeMobile}
                 >
                   {item.label}
