@@ -2,29 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
 import { ClipboardList, Calendar, Clock } from 'lucide-react'
-
-const TYPE_LABELS: Record<string, string> = {
-  match_no_lights: 'Přípravný zápas, bez osvětlení',
-  match_lights: 'Přípravný zápas, s osvětlením',
-  training_no_lights: 'Trénink — celé, bez osvětlení',
-  training_lights: 'Trénink — celé, s osvětlením',
-  half_no_lights: 'Trénink — půlka, bez osvětlení',
-  half_lights: 'Trénink — půlka, s osvětlením',
-}
-
-const STATUS_STYLES: Record<string, string> = {
-  new: 'bg-yellow-50 text-yellow-700',
-  confirmed: 'bg-green-50 text-green-700',
-  rejected: 'bg-red-50 text-red-700',
-  completed: 'bg-gray-100 text-gray-600',
-}
-
-const STATUS_LABELS: Record<string, string> = {
-  new: 'Nová',
-  confirmed: 'Potvrzena',
-  rejected: 'Zamítnuta',
-  completed: 'Proběhla',
-}
+import BookingStatusSelect from './BookingStatusSelect'
+import { BOOKING_TYPE_LABELS } from '@/lib/umt-types'
 
 export default async function AdminRezervacePage() {
   const supabase = await createClient()
@@ -55,9 +34,6 @@ export default async function AdminRezervacePage() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-semibold text-[#0a0a0a]">{b.first_name} {b.last_name}</span>
                       {b.club_name && <span className="text-sm text-gray-500">({b.club_name})</span>}
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLES[b.status] ?? STATUS_STYLES.new}`}>
-                        {STATUS_LABELS[b.status] ?? b.status}
-                      </span>
                     </div>
                     <div className="flex flex-wrap gap-4 text-sm text-gray-600">
                       <a href={`mailto:${b.email}`} className="hover:text-[#c8102e]">{b.email}</a>
@@ -74,14 +50,17 @@ export default async function AdminRezervacePage() {
                       )}
                       {b.booking_type && (
                         <span className="inline-flex items-center gap-1 rounded-full bg-[#c8102e]/10 px-3 py-1 text-[#c8102e]">
-                          {TYPE_LABELS[b.booking_type] ?? b.booking_type}
+                          {BOOKING_TYPE_LABELS[b.booking_type] ?? b.booking_type}
                         </span>
                       )}
                     </div>
                     {b.note && <p className="text-sm text-gray-500 italic mt-1">„{b.note}"</p>}
                   </div>
-                  <div className="text-xs text-gray-400 shrink-0">
-                    {format(new Date(b.created_at), 'd. M. yyyy HH:mm', { locale: cs })}
+                  <div className="flex flex-col items-end gap-2 shrink-0">
+                    <BookingStatusSelect bookingId={b.id} currentStatus={b.status} />
+                    <div className="text-xs text-gray-400">
+                      {format(new Date(b.created_at), 'd. M. yyyy HH:mm', { locale: cs })}
+                    </div>
                   </div>
                 </div>
               </div>

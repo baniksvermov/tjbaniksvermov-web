@@ -1,19 +1,42 @@
 import { NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
+import { bookingCapacity } from '@/lib/umt-types'
+
+const OPEN = '16:00'
+const CLOSE = '22:00'
 
 export async function GET() {
   const supabase = createServiceClient()
 
-  // Confirmed bookings from DB
+  // Všechny nevyřízené/potvrzené poptávky — blokují dané časové okno
   const { data } = await supabase
     .from('field_bookings')
-    .select('requested_date')
+    .select('requested_date, status, club_name, first_name, last_name, time_from, time_to, booking_type')
     .in('status', ['confirmed', 'new'])
 
-  const dbDates = (data ?? []).map((r: { requested_date: string }) => r.requested_date)
+  const rows = data ?? []
 
-  // Google Calendar (when configured)
-  let googleDates: string[] = []
+  // Obsazené časové úseky za den — chybějící čas bereme konzervativně jako celé hrací okno.
+  // Kapacita: půlka hřiště = 0.5 (druhá půlka jde pronajmout ve stejný čas), celé hřiště = 1.
+  const busy: Record<string, { from: string; to: string; capacity: number }[]> = {}
+  for (const r of rows) {
+    const from = (r.time_from ?? OPEN).slice(0, 5)
+    const to = (r.time_to ?? CLOSE).slice(0, 5)
+    ;(busy[r.requested_date] ??= []).push({ from, to, capacity: bookingCapacity(r.booking_type) })
+  }
+
+  // Potvrzené rezervace — veřejně zobrazíme tým/organizaci, čas a typ pronájmu
+  const confirmed = rows
+    .filter((r) => r.status === 'confirmed')
+    .map((r) => ({
+      date: r.requested_date,
+      timeFrom: r.time_from,
+      timeTo: r.time_to,
+      team: r.club_name || `${r.first_name} ${r.last_name}`,
+      bookingType: r.booking_type,
+    }))
+
+  // Google Calendar (when configured) — bez spolehlivého typu bereme jako blok na celé hřiště
   const calId = process.env.GOOGLE_CALENDAR_ID
   const apiKey = process.env.GOOGLE_CALENDAR_API_KEY
 
@@ -26,16 +49,16 @@ export async function GET() {
       const res = await fetch(url, { next: { revalidate: 300 } })
       if (res.ok) {
         const json = await res.json()
-        googleDates = (json.items ?? []).map((e: { start: { date?: string; dateTime?: string } }) => {
-          const d = e.start.date ?? e.start.dateTime ?? ''
-          return d.slice(0, 10)
-        }).filter(Boolean)
+        for (const e of json.items ?? []) {
+          const d: string = (e.start?.date ?? e.start?.dateTime ?? '').slice(0, 10)
+          if (!d) continue
+          ;(busy[d] ??= []).push({ from: OPEN, to: CLOSE, capacity: 1 })
+        }
       }
     } catch {
       // silently ignore — Google Calendar not available
     }
   }
 
-  const allDates = [...new Set([...dbDates, ...googleDates])]
-  return NextResponse.json({ dates: allDates })
+  return NextResponse.json({ busy, confirmed, openHour: OPEN, closeHour: CLOSE })
 }
