@@ -52,15 +52,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
 RESEND_API_KEY
 ADMIN_EMAIL                    # recipient for new order notifications
-GOOGLE_CALENDAR_ID             # optional — activates Google Calendar on /umt
-GOOGLE_CALENDAR_API_KEY        # optional — required with GOOGLE_CALENDAR_ID
 ```
 
 ## Pending infrastructure tasks
 
 - **DNS migration**: domain `baniksvermov.cz` is on Wedos, hosting is Vercel. After pointing DNS to Vercel, update `FROM` in `send.ts` to `obchod@baniksvermov.cz` and add domain to Resend.
 - **Status emails**: customer status-change emails currently fail (Resend 403) because `onboarding@resend.dev` can only send to the Resend account owner. Will work automatically after domain verification.
-- **Google Calendar**: env vars `GOOGLE_CALENDAR_ID` + `GOOGLE_CALENDAR_API_KEY` activate calendar sync on `/umt`. No code changes needed — just add the vars to Vercel.
 
 ## Page / feature map
 
