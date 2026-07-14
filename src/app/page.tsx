@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, Calendar, Users, ShoppingBag, Trophy } from 'lucide-react'
 import { getLatestArticles } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
@@ -14,53 +15,70 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative bg-white overflow-hidden">
         <div className="relative mx-auto max-w-7xl px-4 py-20 lg:px-8 lg:py-28">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="h-px w-10 bg-primary" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">
-              Fotbalový klub · Kladno–Švermov
-            </span>
-          </div>
-          <h1
-            aria-label="Baník Švermov"
-            className="font-[Anton] text-foreground uppercase leading-none text-6xl sm:text-7xl lg:text-8xl xl:text-9xl"
-          >
-            <span aria-hidden="true">
-              <span className="block">Baník</span>
-              <span className="mt-[0.3em] block">
-                <span className="relative inline-block">
-                  {/* Anton nemá pořádně podporovaný háček nad Š — dokreslen ručně jako SVG */}
-                  <svg
-                    viewBox="0 0 24 12"
-                    fill="none"
-                    className="absolute left-1/2 top-[-0.26em] h-[0.2em] w-[0.42em] -translate-x-1/2 text-foreground"
-                  >
-                    <path
-                      d="M2 2 L12 9 L22 2"
-                      stroke="currentColor"
-                      strokeWidth="6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  S
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <div className="mb-6 flex items-center gap-3">
+                <span className="h-px w-10 bg-primary" />
+                <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">
+                  Fotbalový klub · Kladno–Švermov
                 </span>
-                vermov
-                <span className="ml-2 inline-block h-[0.16em] w-[0.16em] align-baseline bg-primary" />
-              </span>
-            </span>
-          </h1>
-          <p className="mt-8 max-w-lg text-lg leading-8 text-gray-600">
-            Fotbalový klub s tradicí od roku 1910. Hrajeme pro radost z fotbalu
-            od nejmenších až po dospělé muže.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-6">
-            <Button href="/pridej-se" size="lg">
-              Chci hrát za Baník
-            </Button>
-            <Button href="/klub/historie" variant="ghost">
-              Více o klubu
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+              </div>
+              <h1
+                aria-label="Baník Švermov"
+                className="font-[Anton] text-foreground uppercase leading-none text-6xl sm:text-7xl lg:text-8xl xl:text-9xl"
+              >
+                <span aria-hidden="true">
+                  <span className="block">Baník</span>
+                  <span className="mt-[0.3em] block">
+                    <span className="relative inline-block">
+                      {/* Anton nemá pořádně podporovaný háček nad Š — dokreslen ručně jako SVG */}
+                      <svg
+                        viewBox="0 0 24 12"
+                        fill="none"
+                        className="absolute left-1/2 top-[-0.26em] h-[0.2em] w-[0.42em] -translate-x-1/2 text-foreground"
+                      >
+                        <path
+                          d="M2 2 L12 9 L22 2"
+                          stroke="currentColor"
+                          strokeWidth="6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      S
+                    </span>
+                    vermov
+                    <span className="ml-2 inline-block h-[0.16em] w-[0.16em] align-baseline bg-primary" />
+                  </span>
+                </span>
+              </h1>
+              <p className="mt-8 max-w-lg text-lg leading-8 text-gray-600">
+                Fotbalový klub s tradicí od roku 1910. Hrajeme pro radost z fotbalu
+                od nejmenších až po dospělé muže.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-6">
+                <Button href="/pridej-se" size="lg">
+                  Chci hrát za Baník
+                </Button>
+                <Button href="/klub/historie" variant="ghost">
+                  Více o klubu
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Foto hřiště */}
+            <div className="hidden lg:block">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-xl ring-1 ring-black/5">
+                <Image
+                  src="/hriste-dron.jpg"
+                  alt="Letecký pohled na hřiště TJ Baník Švermov"
+                  fill
+                  priority
+                  className="object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
