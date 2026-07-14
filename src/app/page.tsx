@@ -57,7 +57,7 @@ export default async function HomePage() {
             <Button href="/pridej-se" size="lg">
               Chci hrát za Baník
             </Button>
-            <Button href="/klub" variant="ghost">
+            <Button href="/klub/historie" variant="ghost">
               Více o klubu
               <ArrowRight className="h-4 w-4" />
             </Button>
