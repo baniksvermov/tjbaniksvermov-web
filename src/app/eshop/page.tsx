@@ -1,8 +1,8 @@
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import type { Product, ProductCategory } from '@/types/database'
 import EshopClient from './EshopClient'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export const metadata = {
   title: 'E-shop — TJ Baník Švermov',
@@ -10,7 +10,7 @@ export const metadata = {
 }
 
 export default async function EshopPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const [{ data: products }, { data: categories }] = await Promise.all([
     supabase

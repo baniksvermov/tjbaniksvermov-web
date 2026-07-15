@@ -18,6 +18,7 @@ export default function UmtPage() {
           alt="Letecký pohled na areál TJ Baník Švermov"
           fill
           priority
+          sizes="100vw"
           className="object-cover object-center"
         />
         {/* Tmavý gradient přes foto — pro čitelnost textu */}

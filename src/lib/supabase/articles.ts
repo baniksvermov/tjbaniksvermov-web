@@ -1,4 +1,4 @@
-import { createClient } from './server'
+import { createPublicClient } from './public'
 import type { Article, ArticleCategory } from '@/types/database'
 
 export async function getArticles({
@@ -10,7 +10,7 @@ export async function getArticles({
   perPage?: number
   categorySlug?: string
 } = {}) {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const from = (page - 1) * perPage
   const to = from + perPage - 1
 
@@ -41,8 +41,15 @@ export async function getArticles({
   return { articles: (data ?? []) as Article[], total: count ?? 0 }
 }
 
+export async function getAllArticleSlugs() {
+  const supabase = createPublicClient()
+  const { data, error } = await supabase.from('articles').select('slug').eq('status', 'published')
+  if (error) return []
+  return (data ?? []).map((a) => a.slug as string)
+}
+
 export async function getArticleBySlug(slug: string) {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data, error } = await supabase
     .from('articles')
     .select(`*, category:article_categories(id, name, slug, color), media:article_media(*)`)
@@ -55,7 +62,7 @@ export async function getArticleBySlug(slug: string) {
 
 export async function getCategories() {
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from('article_categories')
       .select('*')
@@ -72,7 +79,7 @@ export async function getCategories() {
 
 export async function getLatestArticles(limit = 3) {
   try {
-    const supabase = await createClient()
+    const supabase = createPublicClient()
     const { data, error } = await supabase
       .from('articles')
       .select(`*, category:article_categories(id, name, slug, color)`)

@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { ArrowRight, Mail, Phone, FileText } from 'lucide-react'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Info pro členy a hráče',
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 }
 
 export default async function InfoProClenyPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   // Najdi kategorii "info" nebo "info-pro-cleny"
   const { data: category } = await supabase

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { ExternalLink, User, Users } from 'lucide-react'
 import type { Player, Coach } from '@/types/database'
 
@@ -9,9 +9,17 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const supabase = createPublicClient()
+  const { data } = await supabase.from('teams').select('slug')
+  return (data ?? []).map((t) => ({ slug: t.slug as string }))
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data } = await supabase.from('teams').select('name').eq('slug', slug).single()
   if (!data) return {}
   return { title: data.name, description: `${data.name} — TJ Baník Švermov` }
@@ -19,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TymPage({ params }: Props) {
   const { slug } = await params
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data: team } = await supabase
     .from('teams')

@@ -30,6 +30,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
               src={article.hero_image_url}
               alt={article.title}
               fill
+              sizes="(min-width: 1280px) 1280px, 100vw"
               className="object-cover opacity-70 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
             />
           ) : (
@@ -64,6 +65,7 @@ export default function ArticleCard({ article, featured = false }: Props) {
               src={article.hero_image_url}
               alt={article.title}
               fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (

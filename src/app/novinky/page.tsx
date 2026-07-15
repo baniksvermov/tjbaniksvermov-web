@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { Newspaper } from 'lucide-react'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 import { getArticles, getCategories } from '@/lib/supabase/articles'
 import ArticleCard from '@/components/ArticleCard'
 import { ChevronLeft, ChevronRight } from 'lucide-react'

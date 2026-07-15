@@ -1,4 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { getCategories } from '@/lib/supabase/articles'
 import ArticleEditor from '@/components/admin/ArticleEditor'
@@ -44,6 +45,8 @@ async function updateArticle(id: string, data: FormData): Promise<{ error?: stri
   }).eq('id', id)
 
   if (error) return { error: error.message }
+  revalidatePath('/')
+  revalidatePath('/novinky', 'layout')
   redirect('/admin/clanky')
 }
 
@@ -51,6 +54,8 @@ async function deleteArticle(id: string): Promise<void> {
   'use server'
   const supabase = await createClient()
   await supabase.from('articles').delete().eq('id', id)
+  revalidatePath('/')
+  revalidatePath('/novinky', 'layout')
   redirect('/admin/clanky')
 }
 

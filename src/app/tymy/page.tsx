@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { ArrowRight, Shield } from 'lucide-react'
+
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Týmy',
@@ -16,7 +18,7 @@ const categoryLabels: Record<string, string> = {
 }
 
 export default async function TymyPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data: teams } = await supabase
     .from('teams')
     .select('*')

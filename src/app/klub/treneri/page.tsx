@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { Phone, Mail, User, Users } from 'lucide-react'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Trenéři',
@@ -27,7 +27,7 @@ interface CoachRow {
 }
 
 export default async function TreneriPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data } = await supabase
     .from('coaches')

@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { Phone, Mail, Users } from 'lucide-react'
+
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Vedení klubu',
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 export default async function VedeniPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data: coaches } = await supabase
     .from('coaches')
     .select('*')

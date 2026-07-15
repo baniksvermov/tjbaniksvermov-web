@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 
 function slugify(text: string) {
@@ -46,6 +47,8 @@ export async function POST(req: NextRequest) {
 
   const { error } = await supabase.from('products').insert(rows)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  revalidatePath('/eshop', 'layout')
 
   return NextResponse.json({ ok: true })
 }

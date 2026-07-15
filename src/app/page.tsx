@@ -6,7 +6,7 @@ import ArticleCard from '@/components/ArticleCard'
 import { Button } from '@/components/ui/Button'
 import { IconBadge } from '@/components/ui/IconBadge'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export default async function HomePage() {
   const latestArticles = await getLatestArticles(3)
@@ -75,6 +75,7 @@ export default async function HomePage() {
                   alt="Letecký pohled na hřiště TJ Baník Švermov"
                   fill
                   priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
                 />
               </div>

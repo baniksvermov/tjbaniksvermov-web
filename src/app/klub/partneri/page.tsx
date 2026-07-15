@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { ExternalLink, Handshake } from 'lucide-react'
+
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Partneři',
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
 
 
 export default async function PartneriPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data: partners } = await supabase
     .from('partners')
     .select('*')
@@ -49,7 +51,7 @@ export default async function PartneriPage() {
               >
                 {p.logo_url ? (
                   <div className="relative h-14 w-full mb-3">
-                    <Image src={p.logo_url} alt={p.name} fill className="object-contain" />
+                    <Image src={p.logo_url} alt={p.name} fill sizes="(min-width: 1024px) 220px, (min-width: 640px) 200px, 40vw" className="object-contain" />
                   </div>
                 ) : (
                   <div className="flex h-12 w-full items-center justify-center rounded-lg bg-[#c8102e]/5 mb-3">

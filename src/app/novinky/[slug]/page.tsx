@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
 import { ArrowLeft } from 'lucide-react'
-import { getArticleBySlug, getLatestArticles } from '@/lib/supabase/articles'
+import { getArticleBySlug, getLatestArticles, getAllArticleSlugs } from '@/lib/supabase/articles'
 import { tiptapToHtml } from '@/lib/tiptap-renderer'
 import ArticleCard from '@/components/ArticleCard'
 import ShareButton from '@/components/ShareButton'
@@ -15,6 +15,11 @@ import ArticleGallery from '@/components/ArticleGallery'
 
 interface Props {
   params: Promise<{ slug: string }>
+}
+
+export async function generateStaticParams() {
+  const slugs = await getAllArticleSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 function stripShortcodes(text: string | null | undefined): string {
@@ -98,6 +103,7 @@ export default async function ArticleDetailPage({ params }: Props) {
             src={article.hero_image_url}
             alt={article.title}
             fill
+            sizes="(min-width: 1024px) 896px, 100vw"
             className="object-cover"
             priority
           />

@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { getCategories } from '@/lib/supabase/articles'
 import ArticleEditor from '@/components/admin/ArticleEditor'
@@ -44,6 +45,8 @@ async function saveArticle(data: FormData): Promise<{ error?: string; slug?: str
   })
 
   if (error) return { error: error.message }
+  revalidatePath('/')
+  revalidatePath('/novinky', 'layout')
   redirect('/admin/clanky')
 }
 
