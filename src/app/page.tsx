@@ -2,14 +2,19 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Calendar, Users, ShoppingBag, Trophy } from 'lucide-react'
 import { getLatestArticles } from '@/lib/supabase/articles'
+import { getUpcomingMatches } from '@/lib/supabase/matches'
 import ArticleCard from '@/components/ArticleCard'
+import UpcomingMatchesCarousel from '@/components/UpcomingMatchesCarousel'
 import { Button } from '@/components/ui/Button'
 import { IconBadge } from '@/components/ui/IconBadge'
 
 export const revalidate = 300
 
 export default async function HomePage() {
-  const latestArticles = await getLatestArticles(3)
+  const [latestArticles, upcomingMatches] = await Promise.all([
+    getLatestArticles(3),
+    getUpcomingMatches(9),
+  ])
   return (
     <>
       {/* Hero */}
@@ -122,6 +127,23 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Nejbližší zápasy */}
+      {upcomingMatches.length > 0 && (
+        <section className="bg-white border-t border-border">
+          <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="font-[Anton] text-3xl uppercase tracking-wide">
+                Nejbližší zápasy
+              </h2>
+              <Button href="/kalendar" variant="ghost">
+                Celý kalendář <ArrowRight className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+            <UpcomingMatchesCarousel matches={upcomingMatches} />
+          </div>
+        </section>
+      )}
 
       {/* Novinky */}
       <section className="mx-auto max-w-7xl px-4 py-16 lg:px-8">
