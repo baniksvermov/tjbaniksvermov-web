@@ -60,7 +60,7 @@ export default function Footer() {
                 ['Dorost', '/tymy/dorost-ia'],
                 ['Žáci', '/tymy/starsi-zaci'],
                 ['Přípravka', '/tymy/starsi-pripravka'],
-                ['Mini', '/tymy/mini'],
+                ['Mini', '/tymy/mini-pripravka'],
               ].map(([label, href]) => (
                 <li key={href}>
                   <Link href={href} className="hover:text-white transition-colors">

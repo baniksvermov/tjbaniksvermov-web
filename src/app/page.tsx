@@ -192,7 +192,7 @@ export default async function HomePage() {
               { label: 'Dorost', sub: 'U19 · 1.A třída', href: '/tymy/dorost-ia' },
               { label: 'Žáci', sub: 'Starší žáci', href: '/tymy/starsi-zaci' },
               { label: 'Přípravka', sub: 'Starší přípravka', href: '/tymy/starsi-pripravka' },
-              { label: 'Mini', sub: 'Nejmenší', href: '/tymy/mini' },
+              { label: 'Mini', sub: 'Nejmenší', href: '/tymy/mini-pripravka' },
             ].map((team) => (
               <Link key={team.href} href={team.href} className="group px-4 py-2 text-center">
                 <p className="font-[Anton] uppercase text-xl text-foreground transition-colors group-hover:text-primary">
